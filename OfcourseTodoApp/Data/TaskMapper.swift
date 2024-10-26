@@ -12,7 +12,7 @@ class TaskMapper {
     
     static func mapToObject(taskEntity: TaskEntity) -> Task {
         return Task(
-            id: taskEntity.objectID,
+            id: taskEntity.uuid,
             title: taskEntity.title ?? "",
             comment: taskEntity.comment,
             isCompleted: taskEntity.isCompleted,

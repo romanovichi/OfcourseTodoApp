@@ -10,13 +10,13 @@ import CoreData
 
 struct Task {
     
-    let id: NSManagedObjectID
+    let id: UUID
     let title: String
     let comment: String?
     let isCompleted: Bool
     let dateCreated: Date
     
-    init(id: NSManagedObjectID, title: String, comment: String?, isCompleted: Bool = false, dateCreated: Date? = Date()) {
+    init(id: UUID, title: String, comment: String?, isCompleted: Bool = false, dateCreated: Date? = Date()) {
         self.id = id
         self.title = title
         self.comment = comment

@@ -11,7 +11,7 @@ import CoreData
 
 final class CoreDataTaskRepositoryTests: XCTestCase {
 
-    var repository: CoreDataTaskRepository!
+    var repository: CoreDataTaskDatabase!
     var persistentContainer: NSPersistentContainer!
 
     override func setUpWithError() throws {
@@ -30,7 +30,7 @@ final class CoreDataTaskRepositoryTests: XCTestCase {
             }
         }
         
-        repository = CoreDataTaskRepository(persistentContainer: persistentContainer)
+        repository = CoreDataTaskDatabase(persistentContainer: persistentContainer)
     }
 
     override func tearDownWithError() throws {

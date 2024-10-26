@@ -20,7 +20,11 @@ final class DependencyContainer {
         }
     }
 
-    lazy var taskRepository: TaskRepositoryProtocol  = {
-        return CoreDataTaskRepository(persistentContainer: persistentContainer)
+    lazy var coreDataTaskDatabase: TaskDatabaseProtocol = {
+        return CoreDataTaskDatabase(persistentContainer: persistentContainer)
+    }()
+    
+    lazy var taskRepository: TaskRepositoryProtocol = {
+        return TaskRepository(database: coreDataTaskDatabase)
     }()
 }
