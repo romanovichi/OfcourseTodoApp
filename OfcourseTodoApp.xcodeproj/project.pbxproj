@@ -23,6 +23,7 @@
 		9EB758F02CCCE21C00D77F6B /* TaskEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB758EE2CCCE21C00D77F6B /* TaskEntity+CoreDataClass.swift */; };
 		9EB758F12CCCE21C00D77F6B /* TaskEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB758EF2CCCE21C00D77F6B /* TaskEntity+CoreDataProperties.swift */; };
 		9EB758F32CCCE2A700D77F6B /* TaskMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB758F22CCCE2A700D77F6B /* TaskMapper.swift */; };
+		9EB758F72CCCF83400D77F6B /* CoreDataTaskRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB758F62CCCF83400D77F6B /* CoreDataTaskRepositoryTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		9EB758EE2CCCE21C00D77F6B /* TaskEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		9EB758EF2CCCE21C00D77F6B /* TaskEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		9EB758F22CCCE2A700D77F6B /* TaskMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskMapper.swift; sourceTree = "<group>"; };
+		9EB758F62CCCF83400D77F6B /* CoreDataTaskRepositoryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTaskRepositoryTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				9EB7589D2CCCC0E800D77F6B /* OfcourseTodoAppTests.swift */,
+				9EB758F62CCCF83400D77F6B /* CoreDataTaskRepositoryTests.swift */,
 			);
 			path = OfcourseTodoAppTests;
 			sourceTree = "<group>";
@@ -353,6 +356,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9EB7589E2CCCC0E800D77F6B /* OfcourseTodoAppTests.swift in Sources */,
+				9EB758F72CCCF83400D77F6B /* CoreDataTaskRepositoryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
