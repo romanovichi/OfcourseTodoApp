@@ -1,0 +1,37 @@
+{
+  "configurations" : [
+    {
+      "id" : "6F1EB94B-DA80-492C-9DFE-97E7D8D04F89",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:OfcourseTodoApp.xcodeproj",
+      "identifier" : "9EB7587F2CCCC0E600D77F6B",
+      "name" : "OfcourseTodoApp"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:OfcourseTodoApp.xcodeproj",
+        "identifier" : "9EB758982CCCC0E800D77F6B",
+        "name" : "OfcourseTodoAppTests"
+      }
+    },
+    {
+      "enabled" : false,
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:OfcourseTodoApp.xcodeproj",
+        "identifier" : "9EB758A22CCCC0E800D77F6B",
+        "name" : "OfcourseTodoAppUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

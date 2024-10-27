@@ -23,9 +23,14 @@
 		9EB758F02CCCE21C00D77F6B /* TaskEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB758EE2CCCE21C00D77F6B /* TaskEntity+CoreDataClass.swift */; };
 		9EB758F12CCCE21C00D77F6B /* TaskEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB758EF2CCCE21C00D77F6B /* TaskEntity+CoreDataProperties.swift */; };
 		9EB758F32CCCE2A700D77F6B /* TaskMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB758F22CCCE2A700D77F6B /* TaskMapper.swift */; };
-		9EB758F72CCCF83400D77F6B /* CoreDataTaskRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB758F62CCCF83400D77F6B /* CoreDataTaskRepositoryTests.swift */; };
+		9EB758F72CCCF83400D77F6B /* CoreDataTaskDatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB758F62CCCF83400D77F6B /* CoreDataTaskDatabaseTests.swift */; };
 		9EE0AA4B2CCD6BD2009359D2 /* TaskRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE0AA4A2CCD6BD2009359D2 /* TaskRepositoryProtocol.swift */; };
 		9EE0AA4F2CCD6CA7009359D2 /* TaskRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE0AA4E2CCD6CA7009359D2 /* TaskRepository.swift */; };
+		9EE80C842CCECD59007F44DB /* TaskRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80C832CCECD59007F44DB /* TaskRepositoryTests.swift */; };
+		9EE80C872CCECDC1007F44DB /* MockTaskDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80C862CCECDC1007F44DB /* MockTaskDatabase.swift */; };
+		9EE80C8A2CCED35A007F44DB /* TaskUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80C892CCED35A007F44DB /* TaskUseCase.swift */; };
+		9EE80C8D2CCED67F007F44DB /* TaskValidationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80C8C2CCED67F007F44DB /* TaskValidationService.swift */; };
+		9EE80C912CCEEA09007F44DB /* TaskValidationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80C902CCEEA09007F44DB /* TaskValidationServiceTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +49,19 @@
 			remoteInfo = OfcourseTodoApp;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9EC9C8332CCEB1BD00B1ACBD /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		9EB758802CCCC0E600D77F6B /* OfcourseTodoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OfcourseTodoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -66,9 +84,15 @@
 		9EB758EE2CCCE21C00D77F6B /* TaskEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		9EB758EF2CCCE21C00D77F6B /* TaskEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TaskEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		9EB758F22CCCE2A700D77F6B /* TaskMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskMapper.swift; sourceTree = "<group>"; };
-		9EB758F62CCCF83400D77F6B /* CoreDataTaskRepositoryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTaskRepositoryTests.swift; sourceTree = "<group>"; };
+		9EB758F62CCCF83400D77F6B /* CoreDataTaskDatabaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTaskDatabaseTests.swift; sourceTree = "<group>"; };
 		9EE0AA4A2CCD6BD2009359D2 /* TaskRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRepositoryProtocol.swift; sourceTree = "<group>"; };
 		9EE0AA4E2CCD6CA7009359D2 /* TaskRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRepository.swift; sourceTree = "<group>"; };
+		9EE80C832CCECD59007F44DB /* TaskRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRepositoryTests.swift; sourceTree = "<group>"; };
+		9EE80C862CCECDC1007F44DB /* MockTaskDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTaskDatabase.swift; sourceTree = "<group>"; };
+		9EE80C892CCED35A007F44DB /* TaskUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskUseCase.swift; sourceTree = "<group>"; };
+		9EE80C8C2CCED67F007F44DB /* TaskValidationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskValidationService.swift; sourceTree = "<group>"; };
+		9EE80C8F2CCEE1EF007F44DB /* OfcourseTodoApp.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = OfcourseTodoApp.xctestplan; sourceTree = "<group>"; };
+		9EE80C902CCEEA09007F44DB /* TaskValidationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskValidationServiceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +123,7 @@
 		9EB758772CCCC0E600D77F6B = {
 			isa = PBXGroup;
 			children = (
+				9EE80C8F2CCEE1EF007F44DB /* OfcourseTodoApp.xctestplan */,
 				9EB758822CCCC0E600D77F6B /* OfcourseTodoApp */,
 				9EB7589C2CCCC0E800D77F6B /* OfcourseTodoAppTests */,
 				9EB758A62CCCC0E800D77F6B /* OfcourseTodoAppUITests */,
@@ -133,8 +158,11 @@
 		9EB7589C2CCCC0E800D77F6B /* OfcourseTodoAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				9EE80C852CCECDAA007F44DB /* Mocks */,
 				9EB7589D2CCCC0E800D77F6B /* OfcourseTodoAppTests.swift */,
-				9EB758F62CCCF83400D77F6B /* CoreDataTaskRepositoryTests.swift */,
+				9EB758F62CCCF83400D77F6B /* CoreDataTaskDatabaseTests.swift */,
+				9EE80C832CCECD59007F44DB /* TaskRepositoryTests.swift */,
+				9EE80C902CCEEA09007F44DB /* TaskValidationServiceTests.swift */,
 			);
 			path = OfcourseTodoAppTests;
 			sourceTree = "<group>";
@@ -177,8 +205,8 @@
 		9EB758C02CCCC5E500D77F6B /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				9EE0AA4E2CCD6CA7009359D2 /* TaskRepository.swift */,
-				9EB758F22CCCE2A700D77F6B /* TaskMapper.swift */,
+				9EE80C952CCEEAC3007F44DB /* Repositories */,
+				9EE80C942CCEEAB9007F44DB /* Helpers */,
 				9EE0AA4C2CCD6C49009359D2 /* Local */,
 				9EB758C12CCCC5EC00D77F6B /* DI */,
 			);
@@ -205,8 +233,10 @@
 		9EB758DB2CCCD26200D77F6B /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				9EB758DC2CCCD27B00D77F6B /* Task.swift */,
-				9EE0AA4A2CCD6BD2009359D2 /* TaskRepositoryProtocol.swift */,
+				9EE80C882CCED302007F44DB /* UseCases */,
+				9EE80C932CCEEAA1007F44DB /* Repositories */,
+				9EE80C922CCEEA8D007F44DB /* Entities */,
+				9EE80C8B2CCED671007F44DB /* Services */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -229,6 +259,62 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
+		9EE80C852CCECDAA007F44DB /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				9EE80C862CCECDC1007F44DB /* MockTaskDatabase.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
+		9EE80C882CCED302007F44DB /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+				9EE80C892CCED35A007F44DB /* TaskUseCase.swift */,
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
+		9EE80C8B2CCED671007F44DB /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				9EE80C8C2CCED67F007F44DB /* TaskValidationService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		9EE80C922CCEEA8D007F44DB /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				9EB758DC2CCCD27B00D77F6B /* Task.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		9EE80C932CCEEAA1007F44DB /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				9EE0AA4A2CCD6BD2009359D2 /* TaskRepositoryProtocol.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		9EE80C942CCEEAB9007F44DB /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				9EB758F22CCCE2A700D77F6B /* TaskMapper.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		9EE80C952CCEEAC3007F44DB /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				9EE0AA4E2CCD6CA7009359D2 /* TaskRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -239,12 +325,15 @@
 				9EB7587C2CCCC0E600D77F6B /* Sources */,
 				9EB7587D2CCCC0E600D77F6B /* Frameworks */,
 				9EB7587E2CCCC0E600D77F6B /* Resources */,
+				9EC9C8332CCEB1BD00B1ACBD /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = OfcourseTodoApp;
+			packageProductDependencies = (
+			);
 			productName = OfcourseTodoApp;
 			productReference = 9EB758802CCCC0E600D77F6B /* OfcourseTodoApp.app */;
 			productType = "com.apple.product-type.application";
@@ -317,6 +406,8 @@
 				Base,
 			);
 			mainGroup = 9EB758772CCCC0E600D77F6B;
+			packageReferences = (
+			);
 			productRefGroup = 9EB758812CCCC0E600D77F6B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -363,6 +454,8 @@
 				9EB758BC2CCCC35600D77F6B /* IBaseCoordinator.swift in Sources */,
 				9EB758DA2CCCD0BF00D77F6B /* CoreDataTaskDatabase.swift in Sources */,
 				9EB758BE2CCCC3A700D77F6B /* BaseCoordinator.swift in Sources */,
+				9EE80C8D2CCED67F007F44DB /* TaskValidationService.swift in Sources */,
+				9EE80C8A2CCED35A007F44DB /* TaskUseCase.swift in Sources */,
 				9EB758F32CCCE2A700D77F6B /* TaskMapper.swift in Sources */,
 				9EB758B92CCCC20100D77F6B /* MainCoordinator.swift in Sources */,
 				9EB7588E2CCCC0E700D77F6B /* OfcourseTodoApp.xcdatamodeld in Sources */,
@@ -379,8 +472,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9EE80C912CCEEA09007F44DB /* TaskValidationServiceTests.swift in Sources */,
+				9EE80C842CCECD59007F44DB /* TaskRepositoryTests.swift in Sources */,
 				9EB7589E2CCCC0E800D77F6B /* OfcourseTodoAppTests.swift in Sources */,
-				9EB758F72CCCF83400D77F6B /* CoreDataTaskRepositoryTests.swift in Sources */,
+				9EB758F72CCCF83400D77F6B /* CoreDataTaskDatabaseTests.swift in Sources */,
+				9EE80C872CCECDC1007F44DB /* MockTaskDatabase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
