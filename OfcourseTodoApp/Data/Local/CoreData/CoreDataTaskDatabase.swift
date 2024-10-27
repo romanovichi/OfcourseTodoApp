@@ -9,16 +9,16 @@ import Foundation
 import CoreData
 
 protocol TaskDatabaseProtocol {
-    @discardableResult 
-    func saveTask(title: String, comment: String?, isCompleted: Bool) -> Task?
-    func updateTask(with id: UUID, title: String, comment: String?, isCompleted: Bool?) -> Task?
-    func removeTask(by id: UUID) -> Result<Bool, Error>
+    @discardableResult
+    func saveTask(title: String, comment: String?, isCompleted: Bool) async -> Result<Task, Error>
+    func updateTask(with id: UUID, title: String, comment: String?, isCompleted: Bool?) async -> Result<Task, Error>
+    func removeTask(by id: UUID) async -> Result<Bool, Error>
     
-    func fetchTask(by id: UUID) -> Result<Task, Error>
-    func fetchAllTasks() -> [Task]
-    func fetchIncompleteTasks() -> [Task]
+    func fetchTask(by id: UUID) async -> Result<Task, Error>
+    func fetchAllTasks() async -> Result<[Task], Error>
+    func fetchIncompleteTasks() async -> Result<[Task], Error>
     
-    func searchTasks(by title: String, includeOnlyIncomplete: Bool) -> [Task]
+    func searchTasks(by title: String, includeOnlyIncomplete: Bool) async -> Result<[Task], Error>
 }
 
 class CoreDataTaskDatabase: TaskDatabaseProtocol {
@@ -29,7 +29,7 @@ class CoreDataTaskDatabase: TaskDatabaseProtocol {
         self.persistentContainer = persistentContainer
     }
 
-    func fetchTask(by id: UUID) -> Result<Task, Error> {
+    func fetchTask(by id: UUID) async -> Result<Task, Error> {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "uuid == %@", id as CVarArg)
@@ -47,7 +47,7 @@ class CoreDataTaskDatabase: TaskDatabaseProtocol {
     }
 
     @discardableResult
-    func saveTask(title: String, comment: String?, isCompleted: Bool = false) -> Task? {
+    func saveTask(title: String, comment: String?, isCompleted: Bool = false) async -> Result<Task, Error> {
         let context = persistentContainer.viewContext
         let taskEntity = TaskEntity(context: context)
         
@@ -59,14 +59,14 @@ class CoreDataTaskDatabase: TaskDatabaseProtocol {
 
         do {
             try saveContext()
-            return TaskMapper.mapToObject(taskEntity: taskEntity)
+            return .success(TaskMapper.mapToObject(taskEntity: taskEntity))
         } catch {
             print("Failed to save task: \(error)")
-            return nil
+            return .failure(error)
         }
     }
 
-    func updateTask(with id: UUID, title: String, comment: String?, isCompleted: Bool?) -> Task? {
+    func updateTask(with id: UUID, title: String, comment: String?, isCompleted: Bool?) async -> Result<Task, Error> {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "uuid == %@", id as CVarArg)
@@ -78,17 +78,17 @@ class CoreDataTaskDatabase: TaskDatabaseProtocol {
                 taskEntity.isCompleted = isCompleted ?? taskEntity.isCompleted
 
                 try saveContext()
-                return TaskMapper.mapToObject(taskEntity: taskEntity)
+                return .success(TaskMapper.mapToObject(taskEntity: taskEntity))
             } else {
-                return nil
+                return .failure(NSError(domain: "Task not found", code: 404, userInfo: nil))
             }
         } catch {
             print("Failed to update task: \(error)")
-            return nil
+            return .failure(error)
         }
     }
 
-    func removeTask(by id: UUID) -> Result<Bool, Error> {
+    func removeTask(by id: UUID) async -> Result<Bool, Error> {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "uuid == %@", id as CVarArg)
@@ -107,20 +107,21 @@ class CoreDataTaskDatabase: TaskDatabaseProtocol {
         }
     }
     
-    func fetchAllTasks() -> [Task] {
+    func fetchAllTasks() async -> Result<[Task], Error> {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
         
         do {
             let taskEntities = try context.fetch(fetchRequest)
-            return taskEntities.map { TaskMapper.mapToObject(taskEntity: $0) }
+            let tasks = taskEntities.map { TaskMapper.mapToObject(taskEntity: $0) }
+            return .success(tasks)
         } catch {
             print("Failed to fetch tasks: \(error)")
-            return []
+            return .failure(error)
         }
     }
     
-    func fetchIncompleteTasks() -> [Task] {
+    func fetchIncompleteTasks() async -> Result<[Task], Error> {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
 
@@ -128,14 +129,15 @@ class CoreDataTaskDatabase: TaskDatabaseProtocol {
 
         do {
             let taskEntities = try context.fetch(fetchRequest)
-            return taskEntities.map { TaskMapper.mapToObject(taskEntity: $0) }
+            let tasks = taskEntities.map { TaskMapper.mapToObject(taskEntity: $0) }
+            return .success(tasks)
         } catch {
             print("Failed to fetch incomplete tasks: \(error)")
-            return []
+            return .failure(error)
         }
     }
 
-    func searchTasks(by title: String, includeOnlyIncomplete: Bool = false) -> [Task] {
+    func searchTasks(by title: String, includeOnlyIncomplete: Bool = false) async -> Result<[Task], Error> {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
 
@@ -150,10 +152,11 @@ class CoreDataTaskDatabase: TaskDatabaseProtocol {
 
         do {
             let taskEntities = try context.fetch(fetchRequest)
-            return taskEntities.map { TaskMapper.mapToObject(taskEntity: $0) }
+            let tasks = taskEntities.map { TaskMapper.mapToObject(taskEntity: $0) }
+            return .success(tasks)
         } catch {
             print("Failed to fetch tasks with search: \(error)")
-            return []
+            return .failure(error)
         }
     }
 
