@@ -43,8 +43,8 @@ final class AppDIContainer {
     }()
     
     // MARK: - Coordinators
-    func makeMainCoordinator(navigationController: UINavigationController) -> MainCoordinator {
+    func makeMainCoordinator(navigationController: UINavigationController) -> MainCoordinatorProtocol {
         return MainCoordinator(navigationController: navigationController,
-                                              dependencyContainer: self)
+                               dependencyContainer: self)
     }
 }

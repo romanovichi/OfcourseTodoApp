@@ -7,9 +7,21 @@
 
 import UIKit
 
-final class MainCoordinator: BaseCoordinator {
+protocol MainCoordinatorProtocol: IBaseCoordinator {
     
-    override func start() {
-        print("--- MainCoordinator started ---")
+}
+
+final class MainCoordinator: MainCoordinatorProtocol {
+    
+    var navigationController: UINavigationController
+    var dependencyContainer: AppDIContainer
+
+    init(navigationController: UINavigationController, dependencyContainer: AppDIContainer) {
+        self.navigationController = navigationController
+        self.dependencyContainer = dependencyContainer
+    }
+    
+    func start() {
+
     }
 }

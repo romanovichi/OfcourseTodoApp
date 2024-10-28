@@ -8,7 +8,7 @@
 import Foundation
 @testable import OfcourseTodoApp
 
-class MockTaskDatabase: TaskDatabaseProtocol {
+final class MockTaskDatabase: TaskDatabaseProtocol {
     
     var tasks: [Task] = []
     

@@ -15,3 +15,10 @@ protocol IBaseCoordinator: AnyObject {
     func start()
     func back(animated: Bool)
 }
+
+extension IBaseCoordinator {
+    
+    func back(animated: Bool = true) {
+        navigationController.dismiss(animated: animated)
+    }
+}
