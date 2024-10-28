@@ -31,6 +31,10 @@
 		9EE80C8A2CCED35A007F44DB /* TaskUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80C892CCED35A007F44DB /* TaskUseCase.swift */; };
 		9EE80C8D2CCED67F007F44DB /* TaskValidationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80C8C2CCED67F007F44DB /* TaskValidationService.swift */; };
 		9EE80C912CCEEA09007F44DB /* TaskValidationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80C902CCEEA09007F44DB /* TaskValidationServiceTests.swift */; };
+		9EE80C972CCF86AE007F44DB /* MockTaskRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80C962CCF86AE007F44DB /* MockTaskRepository.swift */; };
+		9EE80C992CCF8B51007F44DB /* MockTaskValidationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80C982CCF8B51007F44DB /* MockTaskValidationService.swift */; };
+		9EE80C9B2CCF8B84007F44DB /* TaskUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80C9A2CCF8B84007F44DB /* TaskUseCaseTests.swift */; };
+		9EE80CA12CCF8E5D007F44DB /* AppFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CA02CCF8E5D007F44DB /* AppFlowCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +97,10 @@
 		9EE80C8C2CCED67F007F44DB /* TaskValidationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskValidationService.swift; sourceTree = "<group>"; };
 		9EE80C8F2CCEE1EF007F44DB /* OfcourseTodoApp.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = OfcourseTodoApp.xctestplan; sourceTree = "<group>"; };
 		9EE80C902CCEEA09007F44DB /* TaskValidationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskValidationServiceTests.swift; sourceTree = "<group>"; };
+		9EE80C962CCF86AE007F44DB /* MockTaskRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTaskRepository.swift; sourceTree = "<group>"; };
+		9EE80C982CCF8B51007F44DB /* MockTaskValidationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTaskValidationService.swift; sourceTree = "<group>"; };
+		9EE80C9A2CCF8B84007F44DB /* TaskUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskUseCaseTests.swift; sourceTree = "<group>"; };
+		9EE80CA02CCF8E5D007F44DB /* AppFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlowCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,13 +152,11 @@
 		9EB758822CCCC0E600D77F6B /* OfcourseTodoApp */ = {
 			isa = PBXGroup;
 			children = (
+				9EE80C9E2CCF8E01007F44DB /* Application */,
 				9EB758B62CCCC1ED00D77F6B /* Presentation */,
 				9EB758DB2CCCD26200D77F6B /* Domain */,
 				9EB758C02CCCC5E500D77F6B /* Data */,
-				9EB758832CCCC0E600D77F6B /* AppDelegate.swift */,
-				9EB7588F2CCCC0E800D77F6B /* Assets.xcassets */,
-				9EB758912CCCC0E800D77F6B /* LaunchScreen.storyboard */,
-				9EB758942CCCC0E800D77F6B /* Info.plist */,
+				9EE80C9F2CCF8E1D007F44DB /* Resources */,
 			);
 			path = OfcourseTodoApp;
 			sourceTree = "<group>";
@@ -158,11 +164,10 @@
 		9EB7589C2CCCC0E800D77F6B /* OfcourseTodoAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				9EE80C9D2CCF8CDA007F44DB /* Domain */,
+				9EE80C9C2CCF8CD4007F44DB /* Data */,
 				9EE80C852CCECDAA007F44DB /* Mocks */,
 				9EB7589D2CCCC0E800D77F6B /* OfcourseTodoAppTests.swift */,
-				9EB758F62CCCF83400D77F6B /* CoreDataTaskDatabaseTests.swift */,
-				9EE80C832CCECD59007F44DB /* TaskRepositoryTests.swift */,
-				9EE80C902CCEEA09007F44DB /* TaskValidationServiceTests.swift */,
 			);
 			path = OfcourseTodoAppTests;
 			sourceTree = "<group>";
@@ -208,7 +213,6 @@
 				9EE80C952CCEEAC3007F44DB /* Repositories */,
 				9EE80C942CCEEAB9007F44DB /* Helpers */,
 				9EE0AA4C2CCD6C49009359D2 /* Local */,
-				9EB758C12CCCC5EC00D77F6B /* DI */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -263,6 +267,8 @@
 			isa = PBXGroup;
 			children = (
 				9EE80C862CCECDC1007F44DB /* MockTaskDatabase.swift */,
+				9EE80C962CCF86AE007F44DB /* MockTaskRepository.swift */,
+				9EE80C982CCF8B51007F44DB /* MockTaskValidationService.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -313,6 +319,44 @@
 				9EE0AA4E2CCD6CA7009359D2 /* TaskRepository.swift */,
 			);
 			path = Repositories;
+			sourceTree = "<group>";
+		};
+		9EE80C9C2CCF8CD4007F44DB /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				9EB758F62CCCF83400D77F6B /* CoreDataTaskDatabaseTests.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		9EE80C9D2CCF8CDA007F44DB /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				9EE80C832CCECD59007F44DB /* TaskRepositoryTests.swift */,
+				9EE80C902CCEEA09007F44DB /* TaskValidationServiceTests.swift */,
+				9EE80C9A2CCF8B84007F44DB /* TaskUseCaseTests.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		9EE80C9E2CCF8E01007F44DB /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				9EB758832CCCC0E600D77F6B /* AppDelegate.swift */,
+				9EE80CA02CCF8E5D007F44DB /* AppFlowCoordinator.swift */,
+				9EB758C12CCCC5EC00D77F6B /* DI */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		9EE80C9F2CCF8E1D007F44DB /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9EB7588F2CCCC0E800D77F6B /* Assets.xcassets */,
+				9EB758912CCCC0E800D77F6B /* LaunchScreen.storyboard */,
+				9EB758942CCCC0E800D77F6B /* Info.plist */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -450,6 +494,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9EE80CA12CCF8E5D007F44DB /* AppFlowCoordinator.swift in Sources */,
 				9EB758C32CCCC5F500D77F6B /* DependencyContainer.swift in Sources */,
 				9EB758BC2CCCC35600D77F6B /* IBaseCoordinator.swift in Sources */,
 				9EB758DA2CCCD0BF00D77F6B /* CoreDataTaskDatabase.swift in Sources */,
@@ -472,6 +517,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9EE80C9B2CCF8B84007F44DB /* TaskUseCaseTests.swift in Sources */,
+				9EE80C972CCF86AE007F44DB /* MockTaskRepository.swift in Sources */,
+				9EE80C992CCF8B51007F44DB /* MockTaskValidationService.swift in Sources */,
 				9EE80C912CCEEA09007F44DB /* TaskValidationServiceTests.swift in Sources */,
 				9EE80C842CCECD59007F44DB /* TaskRepositoryTests.swift in Sources */,
 				9EB7589E2CCCC0E800D77F6B /* OfcourseTodoAppTests.swift in Sources */,
@@ -644,7 +692,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Z8F3V89KLU;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = OfcourseTodoApp/Info.plist;
+				INFOPLIST_FILE = OfcourseTodoApp/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -672,7 +720,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Z8F3V89KLU;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = OfcourseTodoApp/Info.plist;
+				INFOPLIST_FILE = OfcourseTodoApp/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";

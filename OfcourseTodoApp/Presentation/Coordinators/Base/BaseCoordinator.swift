@@ -10,9 +10,9 @@ import UIKit
 class BaseCoordinator: IBaseCoordinator {
     
     var navigationController: UINavigationController
-    var dependencyContainer: DependencyContainer
+    var dependencyContainer: AppDIContainer
 
-    init(navigationController: UINavigationController, dependencyContainer: DependencyContainer) {
+    init(navigationController: UINavigationController, dependencyContainer: AppDIContainer) {
         self.navigationController = navigationController
         self.dependencyContainer = dependencyContainer
     }

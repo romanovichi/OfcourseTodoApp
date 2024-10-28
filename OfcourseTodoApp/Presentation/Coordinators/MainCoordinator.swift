@@ -10,7 +10,6 @@ import UIKit
 final class MainCoordinator: BaseCoordinator {
     
     override func start() {
-        
+        print("--- MainCoordinator started ---")
     }
-
 }

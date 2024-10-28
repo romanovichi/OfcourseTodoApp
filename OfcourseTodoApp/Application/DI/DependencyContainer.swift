@@ -6,8 +6,9 @@
 //
 
 import CoreData
+import UIKit
 
-final class DependencyContainer {
+final class AppDIContainer {
     
     private let persistentContainer: NSPersistentContainer
 
@@ -19,12 +20,31 @@ final class DependencyContainer {
             }
         }
     }
+    
+    // MARK: - Use cases
+    lazy var taskUseCase: TaskUseCaseProtocol = {
+        return TaskUseCase(taskRepository: taskRepository,
+                           taskValidationService: taskValidationService)
+    }()
+    
+    // MARK: - Services
+    lazy var taskValidationService: TaskValidationServiceProtocol = {
+        return TaskValidationService()
+    }()
 
+    // MARK: - Storages
     lazy var coreDataTaskDatabase: TaskDatabaseProtocol = {
         return CoreDataTaskDatabase(persistentContainer: persistentContainer)
     }()
     
+    // MARK: - Repositories
     lazy var taskRepository: TaskRepositoryProtocol = {
         return TaskRepository(database: coreDataTaskDatabase)
     }()
+    
+    // MARK: - Coordinators
+    func makeMainCoordinator(navigationController: UINavigationController) -> MainCoordinator {
+        return MainCoordinator(navigationController: navigationController,
+                                              dependencyContainer: self)
+    }
 }

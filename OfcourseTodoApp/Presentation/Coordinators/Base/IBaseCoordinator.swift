@@ -9,7 +9,7 @@ import UIKit
 
 protocol IBaseCoordinator: AnyObject {
     
-    var dependencyContainer: DependencyContainer { get set }
+    var dependencyContainer: AppDIContainer { get set }
     var navigationController: UINavigationController { get set }
     
     func start()
