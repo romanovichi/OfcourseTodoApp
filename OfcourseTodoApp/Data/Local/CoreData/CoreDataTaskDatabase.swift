@@ -10,15 +10,15 @@ import CoreData
 
 protocol TaskDatabaseProtocol {
     @discardableResult
-    func saveTask(title: String, comment: String?, isCompleted: Bool) async -> Result<Task, Error>
-    func updateTask(with id: UUID, title: String, comment: String?, isCompleted: Bool?) async -> Result<Task, Error>
+    func saveTask(title: String, comment: String?, isCompleted: Bool) async -> Result<TaskObject, Error>
+    func updateTask(with id: UUID, title: String, comment: String?, isCompleted: Bool?) async -> Result<TaskObject, Error>
     func removeTask(by id: UUID) async -> Result<Bool, Error>
     
-    func fetchTask(by id: UUID) async -> Result<Task, Error>
-    func fetchAllTasks() async -> Result<[Task], Error>
-    func fetchIncompleteTasks() async -> Result<[Task], Error>
+    func fetchTask(by id: UUID) async -> Result<TaskObject, Error>
+    func fetchAllTasks() async -> Result<[TaskObject], Error>
+    func fetchIncompleteTasks() async -> Result<[TaskObject], Error>
     
-    func searchTasks(by title: String, includeOnlyIncomplete: Bool) async -> Result<[Task], Error>
+    func searchTasks(by title: String, includeOnlyIncomplete: Bool) async -> Result<[TaskObject], Error>
 }
 
 class CoreDataTaskDatabase: TaskDatabaseProtocol {
@@ -29,7 +29,7 @@ class CoreDataTaskDatabase: TaskDatabaseProtocol {
         self.persistentContainer = persistentContainer
     }
 
-    func fetchTask(by id: UUID) async -> Result<Task, Error> {
+    func fetchTask(by id: UUID) async -> Result<TaskObject, Error> {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "uuid == %@", id as CVarArg)
@@ -38,7 +38,7 @@ class CoreDataTaskDatabase: TaskDatabaseProtocol {
             if let taskEntity = try context.fetch(fetchRequest).first {
                 return .success(TaskMapper.mapToObject(taskEntity: taskEntity))
             } else {
-                return .failure(NSError(domain: "Task not found", code: 404, userInfo: nil))
+                return .failure(NSError(domain: "TaskObject not found", code: 404, userInfo: nil))
             }
         } catch {
             print("Error fetching task: \(error.localizedDescription)")
@@ -47,7 +47,7 @@ class CoreDataTaskDatabase: TaskDatabaseProtocol {
     }
 
     @discardableResult
-    func saveTask(title: String, comment: String?, isCompleted: Bool = false) async -> Result<Task, Error> {
+    func saveTask(title: String, comment: String?, isCompleted: Bool = false) async -> Result<TaskObject, Error> {
         let context = persistentContainer.viewContext
         let taskEntity = TaskEntity(context: context)
         
@@ -66,7 +66,7 @@ class CoreDataTaskDatabase: TaskDatabaseProtocol {
         }
     }
 
-    func updateTask(with id: UUID, title: String, comment: String?, isCompleted: Bool?) async -> Result<Task, Error> {
+    func updateTask(with id: UUID, title: String, comment: String?, isCompleted: Bool?) async -> Result<TaskObject, Error> {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "uuid == %@", id as CVarArg)
@@ -80,7 +80,7 @@ class CoreDataTaskDatabase: TaskDatabaseProtocol {
                 try saveContext()
                 return .success(TaskMapper.mapToObject(taskEntity: taskEntity))
             } else {
-                return .failure(NSError(domain: "Task not found", code: 404, userInfo: nil))
+                return .failure(NSError(domain: "TaskObject not found", code: 404, userInfo: nil))
             }
         } catch {
             print("Failed to update task: \(error)")
@@ -99,7 +99,7 @@ class CoreDataTaskDatabase: TaskDatabaseProtocol {
                 try saveContext()
                 return .success(true)
             } else {
-                return .failure(NSError(domain: "Task not found", code: 404, userInfo: nil))
+                return .failure(NSError(domain: "TaskObject not found", code: 404, userInfo: nil))
             }
         } catch {
             print("Error fetching or deleting task: \(error.localizedDescription)")
@@ -107,7 +107,7 @@ class CoreDataTaskDatabase: TaskDatabaseProtocol {
         }
     }
     
-    func fetchAllTasks() async -> Result<[Task], Error> {
+    func fetchAllTasks() async -> Result<[TaskObject], Error> {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
         
@@ -121,7 +121,7 @@ class CoreDataTaskDatabase: TaskDatabaseProtocol {
         }
     }
     
-    func fetchIncompleteTasks() async -> Result<[Task], Error> {
+    func fetchIncompleteTasks() async -> Result<[TaskObject], Error> {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
 
@@ -137,7 +137,7 @@ class CoreDataTaskDatabase: TaskDatabaseProtocol {
         }
     }
 
-    func searchTasks(by title: String, includeOnlyIncomplete: Bool = false) async -> Result<[Task], Error> {
+    func searchTasks(by title: String, includeOnlyIncomplete: Bool = false) async -> Result<[TaskObject], Error> {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
 

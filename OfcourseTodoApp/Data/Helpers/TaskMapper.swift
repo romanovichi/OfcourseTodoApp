@@ -10,8 +10,8 @@ import CoreData
 
 class TaskMapper {
     
-    static func mapToObject(taskEntity: TaskEntity) -> Task {
-        return Task(
+    static func mapToObject(taskEntity: TaskEntity) -> TaskObject {
+        return TaskObject(
             id: taskEntity.uuid,
             title: taskEntity.title ?? "",
             comment: taskEntity.comment,

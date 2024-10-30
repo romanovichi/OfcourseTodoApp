@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-struct Task {
+struct TaskObject {
     
     let id: UUID
     let title: String

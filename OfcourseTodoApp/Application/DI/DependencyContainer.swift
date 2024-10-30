@@ -22,9 +22,23 @@ final class AppDIContainer {
     }
     
     // MARK: - Use cases
-    lazy var taskUseCase: TaskUseCaseProtocol = {
-        return TaskUseCase(taskRepository: taskRepository,
-                           taskValidationService: taskValidationService)
+    lazy var fddNewTaskUseCase: AddNewTaskUseCaseProtocol = {
+        return AddNewTaskUseCase(taskRepository: taskRepository,
+                                 taskValidationService: taskValidationService)
+    }()
+    
+    lazy var fetchTasksUseCase: FetchTasksUseCaseProtocol = {
+        return FetchTasksUseCase(taskRepository: taskRepository)
+    }()
+    
+    lazy var taskActionsUseCase: TaskActionsUseCaseProtocol = {
+        return TaskActionsUseCase(taskRepository: taskRepository,
+                                 taskValidationService: taskValidationService)
+    }()
+    
+    lazy var changeTaskStatusUseCase: ChangeTaskStatusUseCaseProtocol = {
+        return ChangeTaskStatusUseCase(taskRepository: taskRepository,
+                                       taskValidationService: taskValidationService)
     }()
     
     // MARK: - Services
@@ -43,8 +57,20 @@ final class AppDIContainer {
     }()
     
     // MARK: - Coordinators
-    func makeMainCoordinator(navigationController: UINavigationController) -> MainCoordinatorProtocol {
+    func makeMainCoordinator(navigationController: UINavigationController) -> MainCoordinator {
         return MainCoordinator(navigationController: navigationController,
                                dependencyContainer: self)
+    }
+    
+    // MARK: - Task List
+    func makeMoviesListViewController(actions: TaskListViewModelActions) -> TaskListViewController {
+        TaskListViewController(viewModel: makeMoviesListViewModel(actions: actions))
+    }
+    
+    func makeMoviesListViewModel(actions: TaskListViewModelActions) -> TaskListViewModel {
+        TaskListViewModel(fetchTasksUseCase: fetchTasksUseCase,
+                          changeTaskStatusUseCase: changeTaskStatusUseCase,
+                          actions: actions
+        )
     }
 }

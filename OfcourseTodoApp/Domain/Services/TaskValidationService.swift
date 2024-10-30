@@ -8,25 +8,20 @@
 import Foundation
 
 protocol TaskValidationServiceProtocol {
-    func validateTitle(_ title: String) -> ValidationError?
-}
-
-enum ValidationError: Error {
-    case emptyTitle
-    case titleTooLong
+    func validateTitle(_ title: String) -> ShowableError?
 }
 
 final class TaskValidationService: TaskValidationServiceProtocol {
     
     private let maxTitleLength = 100
 
-    func validateTitle(_ title: String) -> ValidationError? {
+    func validateTitle(_ title: String) -> ShowableError? {
         
         if title.isEmpty {
-            return .emptyTitle
+            return .validationError
         }
         if title.count > maxTitleLength {
-            return .titleTooLong
+            return .validationError
         }
         
         return nil

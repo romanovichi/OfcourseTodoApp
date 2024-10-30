@@ -10,7 +10,7 @@ import Foundation
 
 final class MockTaskValidationService: TaskValidationServiceProtocol {
     
-    var validationError: ValidationError?
+    var validationError: ShowableError?
 
     func validateTitle(_ title: String) -> ValidationError? {
         return validationError
