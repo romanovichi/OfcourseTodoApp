@@ -11,6 +11,7 @@ import RxCocoa
 
 protocol TaskListViewModelInput {
     func fetchInitialData()
+    func addNewTask()
 }
 
 protocol TaskListViewModelOutput {
@@ -21,10 +22,15 @@ typealias TaskListViewModelProtocol = TaskListViewModelInput & TaskListViewModel
 
 class TaskListViewController: UIViewController {
     
+    enum Section {
+        case main
+    }
+    
     private let disposeBag = DisposeBag()
-
+    
     @IBOutlet weak var tableView: UITableView!
     
+    private var dataSource: UITableViewDiffableDataSource<Section, TaskObject>!
     private var viewModel: TaskListViewModelProtocol!
 
     init(viewModel: TaskListViewModelProtocol) {
@@ -39,6 +45,9 @@ class TaskListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupDataSource()
+        setupNavigationBar()
+        
         setupBindings()
         tableView.register(TaskListCell.self, forCellReuseIdentifier: "TaskListCell")
         tableView.rowHeight = 60
@@ -46,34 +55,44 @@ class TaskListViewController: UIViewController {
         viewModel.fetchInitialData()
     }
     
+    private func setupNavigationBar() {
+        title = "Tasks"  // Заголовок экрана
+        
+        // Кнопка "Добавить" справа
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(didTapAddTask)
+        )
+    }
+    
+    @objc private func didTapAddTask() {
+        viewModel.addNewTask()
+    }
+    
     private func setupBindings() {
         viewModel.tasks
-            .observe(on: MainScheduler.instance)
-            .bind(to: tableView.rx.items(cellIdentifier: "TaskListCell", cellType: TaskListCell.self)) { (row, task, cell) in
-                cell.configure(with: task.title, isCompleted: task.isCompleted)
-            }
+            .subscribe(onNext: { [weak self] in
+                self?.updateTasks($0)
+            })
             .disposed(by: disposeBag)
     }
     
-    private func setupTableView() {
-        //        tableView = UITableView(frame: view.bounds, style: .plain)
-        //        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "TaskCell")
-//        view.addSubview(tableView)
-    }
     
     private func setupDataSource() {
-//        dataSource = UITableViewDiffableDataSource<Section, TaskObject>(tableView: tableView) { (tableView, indexPath, task) -> UITableViewCell? in
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath)
-//            cell.textLabel?.text = task.title
-//            cell.accessoryType = task.isCompleted ? .checkmark : .none
-//            return cell
-//        }
+        dataSource = UITableViewDiffableDataSource<Section, TaskObject>(tableView: tableView) { (tableView, indexPath, task) -> UITableViewCell? in
+            if let cell = tableView.dequeueReusableCell(withIdentifier: "TaskListCell", for: indexPath) as? TaskListCell {
+                cell.configure(with: task.title, isCompleted: task.isCompleted)
+                return cell
+            }
+            return nil
+        }
     }
     
     private func updateTasks(_ tasks: [TaskObject]) {
-//        var snapshot = NSDiffableDataSourceSnapshot<Section, TaskObject>()
-//        snapshot.appendSections([.main])
-//        snapshot.appendItems(tasks)
-//        dataSource.apply(snapshot, animatingDifferences: true)
+        var snapshot = NSDiffableDataSourceSnapshot<Section, TaskObject>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(tasks)
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 }

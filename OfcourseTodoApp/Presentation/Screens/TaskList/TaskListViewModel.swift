@@ -10,8 +10,6 @@ import RxSwift
 import RxCocoa
 
 struct TaskListViewModelActions {
-    /// Note: if you would need to edit movie inside Details screen and update this Movies List screen with updated movie then you would need this closure:
-    /// showMovieDetails: (Movie, @escaping (_ updated: Movie) -> Void) -> Void
     let showTaskDetails: (TaskObject) -> Void
     let addNewTask: () -> Void
 }
@@ -23,7 +21,6 @@ class TaskListViewModel: TaskListViewModelProtocol {
     private let actions: TaskListViewModelActions?
     private let disposeBag = DisposeBag()
        
-    // BehaviorSubject для хранения и публикации списка задач
     private(set) var tasks = BehaviorSubject<[TaskObject]>(value: [])
     
     // MARK: - Init
@@ -36,6 +33,16 @@ class TaskListViewModel: TaskListViewModelProtocol {
         self.fetchTasksUseCase = fetchTasksUseCase
         self.changeTaskStatusUseCase = changeTaskStatusUseCase
         self.actions = actions
+    }
+    
+    // MARK: - INPUT. View event methods
+    
+    func didSelect(task: TaskObject) {
+        actions?.showTaskDetails(task)
+    }
+    
+    func addNewTask() {
+        actions?.addNewTask()
     }
     
     @MainActor
@@ -53,13 +60,26 @@ class TaskListViewModel: TaskListViewModelProtocol {
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 class MockFetchTasksUseCase: FetchTasksUseCaseProtocol {
     
     private let mockTasks: [TaskObject] = [
-        TaskObject(id: UUID(), title: "Task 1", comment: "This is a comment for task 1", isCompleted: false),
-        TaskObject(id: UUID(), title: "Task 2", comment: "Comment for task 2", isCompleted: true),
-        TaskObject(id: UUID(), title: "Task 3", comment: "Another comment", isCompleted: false),
-        TaskObject(id: UUID(), title: "Task 4", comment: "Yet another task", isCompleted: true)
+        TaskObject(id: UUID(), title: "Создать экран добавления", comment: "This is a comment for task 1", isCompleted: true),
+        TaskObject(id: UUID(), title: "Добавить модель для Presentation", comment: "Comment for task 2", isCompleted: false),
+        TaskObject(id: UUID(), title: "Тесты Presentation", comment: "Another comment", isCompleted: false),
+        TaskObject(id: UUID(), title: "Resources", comment: "Yet another task", isCompleted: false)
     ]
     
     func fetchAllTasks() async -> Result<[TaskObject], any Error> {

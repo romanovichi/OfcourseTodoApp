@@ -22,7 +22,7 @@ final class AppDIContainer {
     }
     
     // MARK: - Use cases
-    lazy var fddNewTaskUseCase: AddNewTaskUseCaseProtocol = {
+    lazy var addNewTaskUseCase: AddNewTaskUseCaseProtocol = {
         return AddNewTaskUseCase(taskRepository: taskRepository,
                                  taskValidationService: taskValidationService)
     }()
@@ -73,6 +73,17 @@ final class AppDIContainer {
                           actions: actions
         )
     }
+    
+    // MARK: - Add Task
+    func makeAddTaskViewController(actions: NewTaskViewModelActions) -> NewTaskViewController {
+        NewTaskViewController(viewModel: makeAddTaskViewModel(actions: actions))
+    }
+    
+    func makeAddTaskViewModel(actions: NewTaskViewModelActions) -> NewTaskViewModel {
+        NewTaskViewModel(addNewTaskUseCase: addNewTaskUseCase,
+                         actions: actions)
+    }
+    
     
     // mock
     

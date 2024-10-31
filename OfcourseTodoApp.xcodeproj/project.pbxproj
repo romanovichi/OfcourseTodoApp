@@ -44,6 +44,10 @@
 		9EE80CC02CD2CF79007F44DB /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 9EE80CBF2CD2CF79007F44DB /* RxCocoa */; };
 		9EE80CC22CD2CF79007F44DB /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 9EE80CC12CD2CF79007F44DB /* RxRelay */; };
 		9EE80CC52CD366AF007F44DB /* TaskListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CC42CD366AF007F44DB /* TaskListCell.swift */; };
+		9EE80CCA2CD3ECA0007F44DB /* NewTaskViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE80CC92CD3ECA0007F44DB /* NewTaskViewController.xib */; };
+		9EE80CCB2CD3ECA0007F44DB /* NewTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CC82CD3ECA0007F44DB /* NewTaskViewController.swift */; };
+		9EE80CCE2CD3F8BA007F44DB /* NewTaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CCD2CD3F8BA007F44DB /* NewTaskViewModel.swift */; };
+		9EE80CD02CD3FD62007F44DB /* AppAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CCF2CD3FD62007F44DB /* AppAppearance.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +121,10 @@
 		9EE80CBA2CD2891F007F44DB /* ChangeTaskStatusUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeTaskStatusUseCase.swift; sourceTree = "<group>"; };
 		9EE80CBC2CD2894C007F44DB /* FetchTasksUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchTasksUseCase.swift; sourceTree = "<group>"; };
 		9EE80CC42CD366AF007F44DB /* TaskListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListCell.swift; sourceTree = "<group>"; };
+		9EE80CC82CD3ECA0007F44DB /* NewTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskViewController.swift; sourceTree = "<group>"; };
+		9EE80CC92CD3ECA0007F44DB /* NewTaskViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewTaskViewController.xib; sourceTree = "<group>"; };
+		9EE80CCD2CD3F8BA007F44DB /* NewTaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskViewModel.swift; sourceTree = "<group>"; };
+		9EE80CCF2CD3FD62007F44DB /* AppAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAppearance.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -367,6 +375,7 @@
 				9EB758832CCCC0E600D77F6B /* AppDelegate.swift */,
 				9EE80CA02CCF8E5D007F44DB /* AppFlowCoordinator.swift */,
 				9EB758C12CCCC5EC00D77F6B /* DI */,
+				9EE80CCF2CD3FD62007F44DB /* AppAppearance.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -384,6 +393,7 @@
 		9EE80CAE2CCFBEFF007F44DB /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				9EE80CC72CD3EC7D007F44DB /* NewTask */,
 				9EE80CAF2CCFBF06007F44DB /* TaskList */,
 			);
 			path = Screens;
@@ -406,6 +416,16 @@
 				9EE80CC42CD366AF007F44DB /* TaskListCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		9EE80CC72CD3EC7D007F44DB /* NewTask */ = {
+			isa = PBXGroup;
+			children = (
+				9EE80CC82CD3ECA0007F44DB /* NewTaskViewController.swift */,
+				9EE80CC92CD3ECA0007F44DB /* NewTaskViewController.xib */,
+				9EE80CCD2CD3F8BA007F44DB /* NewTaskViewModel.swift */,
+			);
+			path = NewTask;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -522,6 +542,7 @@
 			files = (
 				9EB758902CCCC0E800D77F6B /* Assets.xcassets in Resources */,
 				9EE80CB52CCFC0A3007F44DB /* TaskListViewController.xib in Resources */,
+				9EE80CCA2CD3ECA0007F44DB /* NewTaskViewController.xib in Resources */,
 				9EB758932CCCC0E800D77F6B /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -549,6 +570,7 @@
 			files = (
 				9EE80CA12CCF8E5D007F44DB /* AppFlowCoordinator.swift in Sources */,
 				9EB758C32CCCC5F500D77F6B /* DependencyContainer.swift in Sources */,
+				9EE80CCE2CD3F8BA007F44DB /* NewTaskViewModel.swift in Sources */,
 				9EE80CBB2CD2891F007F44DB /* ChangeTaskStatusUseCase.swift in Sources */,
 				9EB758BC2CCCC35600D77F6B /* IBaseCoordinator.swift in Sources */,
 				9EB758DA2CCCD0BF00D77F6B /* CoreDataTaskDatabase.swift in Sources */,
@@ -565,10 +587,12 @@
 				9EE0AA4B2CCD6BD2009359D2 /* TaskRepositoryProtocol.swift in Sources */,
 				9EE0AA4F2CCD6CA7009359D2 /* TaskRepository.swift in Sources */,
 				9EB758F02CCCE21C00D77F6B /* TaskEntity+CoreDataClass.swift in Sources */,
+				9EE80CD02CD3FD62007F44DB /* AppAppearance.swift in Sources */,
 				9EB758F12CCCE21C00D77F6B /* TaskEntity+CoreDataProperties.swift in Sources */,
 				9EE80CB42CCFC0A3007F44DB /* TaskListViewController.swift in Sources */,
 				9EB758842CCCC0E600D77F6B /* AppDelegate.swift in Sources */,
 				9EE80CBD2CD2894C007F44DB /* FetchTasksUseCase.swift in Sources */,
+				9EE80CCB2CD3ECA0007F44DB /* NewTaskViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
