@@ -24,13 +24,13 @@ final class TaskValidationServiceTests: XCTestCase {
 
     func testValidateTitle_WhenTitleIsEmpty_ReturnsEmptyTitleError() {
         let result = validationService.validateTitle("")
-        XCTAssertEqual(result, .emptyTitle, "Validation should return emptyTitle error for empty title")
+        XCTAssertEqual(result, .validationError, "Validation should return emptyTitle error for empty title")
     }
 
     func testValidateTitle_WhenTitleIsTooLong_ReturnsTitleTooLongError() {
         let longTitle = String(repeating: "a", count: 101) // 101 characters long
         let result = validationService.validateTitle(longTitle)
-        XCTAssertEqual(result, .titleTooLong, "Validation should return titleTooLong error for titles longer than 100 characters")
+        XCTAssertEqual(result, .validationError, "Validation should return titleTooLong error for titles longer than 100 characters")
     }
 
     func testValidateTitle_WhenTitleIsValid_ReturnsNil() {

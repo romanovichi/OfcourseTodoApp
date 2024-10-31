@@ -68,9 +68,15 @@ final class AppDIContainer {
     }
     
     func makeMoviesListViewModel(actions: TaskListViewModelActions) -> TaskListViewModel {
-        TaskListViewModel(fetchTasksUseCase: fetchTasksUseCase,
+        TaskListViewModel(fetchTasksUseCase: mockFetchTasksUseCase,
                           changeTaskStatusUseCase: changeTaskStatusUseCase,
                           actions: actions
         )
     }
+    
+    // mock
+    
+    lazy var mockFetchTasksUseCase: FetchTasksUseCaseProtocol = {
+        return MockFetchTasksUseCase()
+    }()
 }

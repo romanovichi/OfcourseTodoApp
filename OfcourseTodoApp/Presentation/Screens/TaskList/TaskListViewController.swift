@@ -6,18 +6,24 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 protocol TaskListViewModelInput {
-    
+    func fetchInitialData()
 }
 
 protocol TaskListViewModelOutput {
-    
+    var tasks: BehaviorSubject<[TaskObject]> { get }
 }
 
 typealias TaskListViewModelProtocol = TaskListViewModelInput & TaskListViewModelOutput
 
 class TaskListViewController: UIViewController {
+    
+    private let disposeBag = DisposeBag()
+
+    @IBOutlet weak var tableView: UITableView!
     
     private var viewModel: TaskListViewModelProtocol!
 
@@ -33,11 +39,25 @@ class TaskListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupBindings()
+        tableView.register(TaskListCell.self, forCellReuseIdentifier: "TaskListCell")
+        tableView.rowHeight = 60
+
+        viewModel.fetchInitialData()
+    }
+    
+    private func setupBindings() {
+        viewModel.tasks
+            .observe(on: MainScheduler.instance)
+            .bind(to: tableView.rx.items(cellIdentifier: "TaskListCell", cellType: TaskListCell.self)) { (row, task, cell) in
+                cell.configure(with: task.title, isCompleted: task.isCompleted)
+            }
+            .disposed(by: disposeBag)
     }
     
     private func setupTableView() {
-//        tableView = UITableView(frame: view.bounds, style: .plain)
-//        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "TaskCell")
+        //        tableView = UITableView(frame: view.bounds, style: .plain)
+        //        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "TaskCell")
 //        view.addSubview(tableView)
     }
     

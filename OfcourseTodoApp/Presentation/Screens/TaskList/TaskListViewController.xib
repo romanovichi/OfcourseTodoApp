@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TaskListViewController" customModule="OfcourseTodoApp" customModuleProvider="target">
             <connections>
+                <outlet property="tableView" destination="OiH-39-Jcx" id="a4y-Fw-AHh"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -17,9 +18,22 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="OiH-39-Jcx">
+                    <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                    <color key="backgroundColor" red="0.63529411764705879" green="0.51764705882352946" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="sectionIndexBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </tableView>
+            </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBrownColor"/>
-            <point key="canvasLocation" x="94" y="20"/>
+            <constraints>
+                <constraint firstItem="OiH-39-Jcx" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="YLf-ZY-cuG"/>
+                <constraint firstItem="OiH-39-Jcx" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="bSc-gF-Yue"/>
+                <constraint firstItem="OiH-39-Jcx" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="jJq-Am-wHz"/>
+                <constraint firstItem="OiH-39-Jcx" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="u6A-eR-JGv"/>
+            </constraints>
+            <point key="canvasLocation" x="93.89312977099236" y="19.718309859154932"/>
         </view>
     </objects>
     <resources>

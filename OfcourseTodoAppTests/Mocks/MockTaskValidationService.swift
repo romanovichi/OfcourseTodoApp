@@ -12,7 +12,7 @@ final class MockTaskValidationService: TaskValidationServiceProtocol {
     
     var validationError: ShowableError?
 
-    func validateTitle(_ title: String) -> ValidationError? {
+    func validateTitle(_ title: String) -> ShowableError? {
         return validationError
     }
 }
