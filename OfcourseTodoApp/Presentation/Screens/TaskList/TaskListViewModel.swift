@@ -136,8 +136,12 @@ extension TaskListViewModel {
     }
     
     @MainActor
-    private func mapToTaskListCellViewModels(_ tasks: [TaskObject]) {
-        taskCellViewModels.onNext(tasks.map(TaskListCellViewModel.init))
+    func mapToTaskListCellViewModels(_ tasks: [TaskObject]) {
+        // Преобразуем массив `TaskObject` в массив `TaskListCellViewModel`
+        let cellViewModels = tasks.map { task in
+            TaskListCellViewModel(id: task.id, title: task.title, isCompleted: task.isCompleted)
+        }
+        self.taskCellViewModels.onNext(cellViewModels) // Обновляем observable
     }
     
     @MainActor
