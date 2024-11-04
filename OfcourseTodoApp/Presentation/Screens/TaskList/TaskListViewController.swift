@@ -9,16 +9,20 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-protocol TaskListViewModelInput {
-    func fetchInitialData()
-    func addNewTask()
+protocol Alertable {}
+extension Alertable where Self: UIViewController {
+    
+    func showAlert(
+        title: String = "",
+        message: String,
+        preferredStyle: UIAlertController.Style = .alert,
+        completion: (() -> Void)? = nil
+    ) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+        self.present(alert, animated: true, completion: completion)
+    }
 }
-
-protocol TaskListViewModelOutput {
-    var tasks: BehaviorSubject<[TaskObject]> { get }
-}
-
-typealias TaskListViewModelProtocol = TaskListViewModelInput & TaskListViewModelOutput
 
 class TaskListViewController: UIViewController {
     
@@ -30,7 +34,7 @@ class TaskListViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    private var dataSource: UITableViewDiffableDataSource<Section, TaskObject>!
+    private var dataSource: UITableViewDiffableDataSource<Section, TaskListCellViewModel>!
     private var viewModel: TaskListViewModelProtocol!
 
     init(viewModel: TaskListViewModelProtocol) {
@@ -52,13 +56,12 @@ class TaskListViewController: UIViewController {
         tableView.register(TaskListCell.self, forCellReuseIdentifier: "TaskListCell")
         tableView.rowHeight = 60
 
-        viewModel.fetchInitialData()
+        viewModel.initialLoad()
     }
     
     private func setupNavigationBar() {
-        title = "Tasks"  // Заголовок экрана
+        title = "Tasks"
         
-        // Кнопка "Добавить" справа
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
@@ -71,28 +74,57 @@ class TaskListViewController: UIViewController {
     }
     
     private func setupBindings() {
-        viewModel.tasks
+        
+        viewModel.taskCellViewModels
             .subscribe(onNext: { [weak self] in
-                self?.updateTasks($0)
+                self?.updateTaskCells($0)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.error
+            .skip(1)
+            .subscribe(onNext: { [weak self] in
+                self?.showError($0)
             })
             .disposed(by: disposeBag)
     }
     
     
     private func setupDataSource() {
-        dataSource = UITableViewDiffableDataSource<Section, TaskObject>(tableView: tableView) { (tableView, indexPath, task) -> UITableViewCell? in
+        dataSource = UITableViewDiffableDataSource<Section, TaskListCellViewModel>(tableView: tableView) { (tableView, indexPath, viewModel) -> UITableViewCell? in
             if let cell = tableView.dequeueReusableCell(withIdentifier: "TaskListCell", for: indexPath) as? TaskListCell {
-                cell.configure(with: task.title, isCompleted: task.isCompleted)
+                cell.configure(with: viewModel)
                 return cell
             }
             return nil
         }
     }
     
-    private func updateTasks(_ tasks: [TaskObject]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, TaskObject>()
+    private func updateTaskCells(_ tasks: [TaskListCellViewModel]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, TaskListCellViewModel>()
         snapshot.appendSections([.main])
         snapshot.appendItems(tasks)
         dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
+
+extension TaskListViewController: Alertable {
+    
+    private func showError(_ error: String) {
+        guard !error.isEmpty else { return }
+        showAlert(title: viewModel.errorTitle, message: error)
+    }
+}
+
+extension TaskListViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
+        
+        print("Selected item: \(item.title)")
+        viewModel.showItemWith(id: indexPath.row)
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+

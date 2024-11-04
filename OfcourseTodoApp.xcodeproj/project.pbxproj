@@ -48,6 +48,13 @@
 		9EE80CCB2CD3ECA0007F44DB /* NewTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CC82CD3ECA0007F44DB /* NewTaskViewController.swift */; };
 		9EE80CCE2CD3F8BA007F44DB /* NewTaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CCD2CD3F8BA007F44DB /* NewTaskViewModel.swift */; };
 		9EE80CD02CD3FD62007F44DB /* AppAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CCF2CD3FD62007F44DB /* AppAppearance.swift */; };
+		9EE80CD22CD50F97007F44DB /* TaskListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CD12CD50F97007F44DB /* TaskListViewModelTests.swift */; };
+		9EE80CD42CD58C90007F44DB /* MockFetchTasksUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CD32CD58C90007F44DB /* MockFetchTasksUseCase.swift */; };
+		9EE80CD62CD58CA8007F44DB /* MockChangeTaskStatusUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CD52CD58CA8007F44DB /* MockChangeTaskStatusUseCase.swift */; };
+		9EE80CD82CD58CBB007F44DB /* MockTaskListViewModelActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CD72CD58CBB007F44DB /* MockTaskListViewModelActions.swift */; };
+		9EE80CDA2CD7DDA5007F44DB /* TaskListCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CD92CD7DDA5007F44DB /* TaskListCellViewModel.swift */; };
+		9EE80CDC2CD7E824007F44DB /* RxBlocking in Frameworks */ = {isa = PBXBuildFile; productRef = 9EE80CDB2CD7E824007F44DB /* RxBlocking */; };
+		9EE80CDF2CD93585007F44DB /* ShowableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CDE2CD93585007F44DB /* ShowableError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +132,12 @@
 		9EE80CC92CD3ECA0007F44DB /* NewTaskViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewTaskViewController.xib; sourceTree = "<group>"; };
 		9EE80CCD2CD3F8BA007F44DB /* NewTaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskViewModel.swift; sourceTree = "<group>"; };
 		9EE80CCF2CD3FD62007F44DB /* AppAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAppearance.swift; sourceTree = "<group>"; };
+		9EE80CD12CD50F97007F44DB /* TaskListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewModelTests.swift; sourceTree = "<group>"; };
+		9EE80CD32CD58C90007F44DB /* MockFetchTasksUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFetchTasksUseCase.swift; sourceTree = "<group>"; };
+		9EE80CD52CD58CA8007F44DB /* MockChangeTaskStatusUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockChangeTaskStatusUseCase.swift; sourceTree = "<group>"; };
+		9EE80CD72CD58CBB007F44DB /* MockTaskListViewModelActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTaskListViewModelActions.swift; sourceTree = "<group>"; };
+		9EE80CD92CD7DDA5007F44DB /* TaskListCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListCellViewModel.swift; sourceTree = "<group>"; };
+		9EE80CDE2CD93585007F44DB /* ShowableError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowableError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9EE80CC22CD2CF79007F44DB /* RxRelay in Frameworks */,
+				9EE80CDC2CD7E824007F44DB /* RxBlocking in Frameworks */,
 				9EE80CC02CD2CF79007F44DB /* RxCocoa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -190,6 +204,7 @@
 		9EB7589C2CCCC0E800D77F6B /* OfcourseTodoAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				9EE80CDD2CD7ED83007F44DB /* Presentation */,
 				9EE80C9D2CCF8CDA007F44DB /* Domain */,
 				9EE80C9C2CCF8CD4007F44DB /* Data */,
 				9EE80C852CCECDAA007F44DB /* Mocks */,
@@ -296,6 +311,9 @@
 				9EE80C862CCECDC1007F44DB /* MockTaskDatabase.swift */,
 				9EE80C962CCF86AE007F44DB /* MockTaskRepository.swift */,
 				9EE80C982CCF8B51007F44DB /* MockTaskValidationService.swift */,
+				9EE80CD32CD58C90007F44DB /* MockFetchTasksUseCase.swift */,
+				9EE80CD52CD58CA8007F44DB /* MockChangeTaskStatusUseCase.swift */,
+				9EE80CD72CD58CBB007F44DB /* MockTaskListViewModelActions.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -323,6 +341,7 @@
 			isa = PBXGroup;
 			children = (
 				9EB758DC2CCCD27B00D77F6B /* TaskObject.swift */,
+				9EE80CDE2CD93585007F44DB /* ShowableError.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -414,6 +433,7 @@
 			isa = PBXGroup;
 			children = (
 				9EE80CC42CD366AF007F44DB /* TaskListCell.swift */,
+				9EE80CD92CD7DDA5007F44DB /* TaskListCellViewModel.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -426,6 +446,14 @@
 				9EE80CCD2CD3F8BA007F44DB /* NewTaskViewModel.swift */,
 			);
 			path = NewTask;
+			sourceTree = "<group>";
+		};
+		9EE80CDD2CD7ED83007F44DB /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				9EE80CD12CD50F97007F44DB /* TaskListViewModelTests.swift */,
+			);
+			path = Presentation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -448,6 +476,7 @@
 			packageProductDependencies = (
 				9EE80CBF2CD2CF79007F44DB /* RxCocoa */,
 				9EE80CC12CD2CF79007F44DB /* RxRelay */,
+				9EE80CDB2CD7E824007F44DB /* RxBlocking */,
 			);
 			productName = OfcourseTodoApp;
 			productReference = 9EB758802CCCC0E600D77F6B /* OfcourseTodoApp.app */;
@@ -569,6 +598,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				9EE80CA12CCF8E5D007F44DB /* AppFlowCoordinator.swift in Sources */,
+				9EE80CDA2CD7DDA5007F44DB /* TaskListCellViewModel.swift in Sources */,
+				9EE80CDF2CD93585007F44DB /* ShowableError.swift in Sources */,
 				9EB758C32CCCC5F500D77F6B /* DependencyContainer.swift in Sources */,
 				9EE80CCE2CD3F8BA007F44DB /* NewTaskViewModel.swift in Sources */,
 				9EE80CBB2CD2891F007F44DB /* ChangeTaskStatusUseCase.swift in Sources */,
@@ -601,11 +632,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				9EE80C9B2CCF8B84007F44DB /* TaskUseCaseTests.swift in Sources */,
+				9EE80CD42CD58C90007F44DB /* MockFetchTasksUseCase.swift in Sources */,
 				9EE80C972CCF86AE007F44DB /* MockTaskRepository.swift in Sources */,
+				9EE80CD82CD58CBB007F44DB /* MockTaskListViewModelActions.swift in Sources */,
 				9EE80C992CCF8B51007F44DB /* MockTaskValidationService.swift in Sources */,
+				9EE80CD22CD50F97007F44DB /* TaskListViewModelTests.swift in Sources */,
 				9EE80C912CCEEA09007F44DB /* TaskValidationServiceTests.swift in Sources */,
 				9EE80C842CCECD59007F44DB /* TaskRepositoryTests.swift in Sources */,
 				9EB7589E2CCCC0E800D77F6B /* OfcourseTodoAppTests.swift in Sources */,
+				9EE80CD62CD58CA8007F44DB /* MockChangeTaskStatusUseCase.swift in Sources */,
 				9EB758F72CCCF83400D77F6B /* CoreDataTaskDatabaseTests.swift in Sources */,
 				9EE80C872CCECDC1007F44DB /* MockTaskDatabase.swift in Sources */,
 			);
@@ -960,6 +995,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9EE80CBE2CD2CF79007F44DB /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxRelay;
+		};
+		9EE80CDB2CD7E824007F44DB /* RxBlocking */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9EE80CBE2CD2CF79007F44DB /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxBlocking;
 		};
 /* End XCSwiftPackageProductDependency section */
 

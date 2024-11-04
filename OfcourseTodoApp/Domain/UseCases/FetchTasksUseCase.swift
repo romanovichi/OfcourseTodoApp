@@ -8,9 +8,9 @@
 import Foundation
 
 protocol FetchTasksUseCaseProtocol {
-    func fetchAllTasks() async -> Result<[TaskObject], Error>
-    func fetchIncompleteTasks() async -> Result<[TaskObject], Error>
-    func searchTasks(by title: String, includeOnlyIncomplete: Bool) async -> Result<[TaskObject], Error>
+    func fetchAllTasks() async -> Result<[TaskObject], ShowableError>
+    func fetchIncompleteTasks() async -> Result<[TaskObject], ShowableError>
+    func searchTasks(by title: String, includeOnlyIncomplete: Bool) async -> Result<[TaskObject], ShowableError>
 }
 
 final class FetchTasksUseCase: FetchTasksUseCaseProtocol {
@@ -21,16 +21,37 @@ final class FetchTasksUseCase: FetchTasksUseCaseProtocol {
         self.taskRepository = taskRepository
     }
 
-    func fetchAllTasks() async -> Result<[TaskObject], Error> {
-        return await taskRepository.fetchAllTasks()
+    func fetchAllTasks() async -> Result<[TaskObject], ShowableError> {
+        let result = await taskRepository.fetchAllTasks()
+        switch result {
+        case .success(let success):
+            return .success(success)
+        case .failure(let failure):
+            print("fetchAllTasks error: \(failure)")
+            return .failure(ShowableError.fetchDatabaseError)
+        }
     }
 
-    func fetchIncompleteTasks() async -> Result<[TaskObject], Error> {
-        return await taskRepository.fetchIncompleteTasks()
+    func fetchIncompleteTasks() async -> Result<[TaskObject], ShowableError> {
+        let result = await taskRepository.fetchIncompleteTasks()
+        switch result {
+        case .success(let success):
+            return .success(success)
+        case .failure(let failure):
+            print("fetchIncompleteTasks error: \(failure)")
+            return .failure(ShowableError.fetchIncompleteTasksError)
+        }
     }
 
-    func searchTasks(by title: String, includeOnlyIncomplete: Bool) async -> Result<[TaskObject], Error> {
-        return await taskRepository.searchTasks(by: title, includeOnlyIncomplete: includeOnlyIncomplete)
+    func searchTasks(by title: String, includeOnlyIncomplete: Bool) async -> Result<[TaskObject], ShowableError> {
+        let result = await taskRepository.searchTasks(by: title, includeOnlyIncomplete: includeOnlyIncomplete)
+        switch result {
+        case .success(let success):
+            return .success(success)
+        case .failure(let failure):
+            print("searchTasks error: \(failure)")
+            return .failure(ShowableError.searchTasksError)
+        }
     }
 }
 

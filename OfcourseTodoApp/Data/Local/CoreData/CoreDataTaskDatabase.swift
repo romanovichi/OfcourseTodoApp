@@ -163,7 +163,9 @@ class CoreDataTaskDatabase: TaskDatabaseProtocol {
     private func saveContext() throws {
         let context = persistentContainer.viewContext
         if context.hasChanges {
-            try context.save()
+            try context.performAndWait {
+                try context.save()
+            }
         }
     }
 }

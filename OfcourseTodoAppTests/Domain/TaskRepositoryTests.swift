@@ -25,7 +25,7 @@ final class TaskRepositoryTests: XCTestCase {
         super.tearDown()
     }
 
-    func testSaveTask() async {
+    func test_saveTaskSuccess() async {
         let result = await repository.saveTask(title: "Test Task", comment: "This is a test task")
         switch result {
         case .success(let task):
@@ -37,7 +37,7 @@ final class TaskRepositoryTests: XCTestCase {
         }
     }
 
-    func testUpdateTask() async {
+    func test_updateTask() async {
         let saveResult = await repository.saveTask(title: "Initial Task", comment: "Initial comment")
         guard case .success(let createdTask) = saveResult else {
             XCTFail("Failed to create task")
@@ -56,7 +56,7 @@ final class TaskRepositoryTests: XCTestCase {
         }
     }
 
-    func testRemoveTask() async {
+    func test_removeTask() async {
         let saveResult = await repository.saveTask(title: "Task to delete", comment: "Initial comment")
         guard case .success(let createdTask) = saveResult else {
             XCTFail("Failed to create task")
@@ -81,7 +81,7 @@ final class TaskRepositoryTests: XCTestCase {
         }
     }
 
-    func testFetchAllTasks() async {
+    func test_fetchAllTasks() async {
         await repository.saveTask(title: "Task 1", comment: "Comment 1")
         await repository.saveTask(title: "Task 2", comment: "Comment 2")
 

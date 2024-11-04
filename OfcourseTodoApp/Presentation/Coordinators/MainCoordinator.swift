@@ -46,7 +46,7 @@ final class MainCoordinator {
     }
     
     private func showTaskDetails(movie: TaskObject) {
-        
+        addTask()
     }
 
     private func addTask() {

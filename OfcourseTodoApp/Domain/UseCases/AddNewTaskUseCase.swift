@@ -8,28 +8,7 @@
 import Foundation
 
 protocol AddNewTaskUseCaseProtocol {
-    func createTask(title: String, comment: String?) async -> Result<TaskObject, Error>
-}
-
-enum ShowableError: Error {
-    
-    case newTaskError
-    case fetchDatabaseError
-    case validationError
-    case unknownError
-    
-    var errorTitle: String {
-        switch self {
-        case .newTaskError:
-            return "Can't create new task, try again"
-        case .fetchDatabaseError:
-            return "Can't fetch tasks from storage"
-        case .validationError:
-            return "I decided the task title should be less that 100 symbols and task comment should be less that 500 symbols. You just follow."
-        case .unknownError:
-            return "Some unknown error, call scienists"
-        }
-    }
+    func createTask(title: String, comment: String?) async -> Result<TaskObject, ShowableError>
 }
 
 final class AddNewTaskUseCase: AddNewTaskUseCaseProtocol {
@@ -44,12 +23,23 @@ final class AddNewTaskUseCase: AddNewTaskUseCaseProtocol {
         self.taskValidationService = taskValidationService
     }
     
-    func createTask(title: String, comment: String?) async -> Result<TaskObject, Error> {
+    func createTask(title: String, comment: String?) async -> Result<TaskObject, ShowableError> {
         
         if let validationError = taskValidationService.validateTitle(title) {
             return .failure(validationError)
         }
         
-        return await taskRepository.saveTask(title: title, comment: comment)
+        if let comment = comment, let validationError = taskValidationService.validateComment(comment) {
+            return .failure(validationError)
+        }
+        
+        let result = await taskRepository.saveTask(title: title, comment: comment)
+        switch result {
+        case .success(let success):
+            return .success(success)
+        case .failure(let failure):
+            print("saveTask error: \(failure)")
+            return .failure(ShowableError.createNewTaskError)
+        }
     }
 }

@@ -103,9 +103,9 @@ class TaskListCell: BaseTableViewCell {
     }
     
     // MARK: - Configuration
-    func configure(with title: String, isCompleted: Bool) {
-        titleLabel.text = title
-        checkmarkLabel.text = isCompleted ? "✓" : ""
-        checkmarkLabel.textColor = isCompleted ? .black : .clear
+    func configure(with model: TaskListCellViewModel) {
+        titleLabel.text = model.title
+        checkmarkLabel.text = model.isCompletedLabelValue
+        checkmarkLabel.textColor = model.isCompletedLabelColor
     }
 }

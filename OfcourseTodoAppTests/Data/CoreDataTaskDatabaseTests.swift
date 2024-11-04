@@ -33,12 +33,24 @@ final class CoreDataTaskDatabaseTests: XCTestCase {
     }
 
     override func tearDownWithError() throws {
+
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = TaskEntity.fetchRequest()
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        
+        do {
+            try persistentContainer.viewContext.execute(deleteRequest)
+            try persistentContainer.viewContext.save()
+        } catch {
+            print("Failed to delete all data: \(error)")
+        }
+        
         repository = nil
         persistentContainer = nil
         super.tearDown()
     }
+
     
-    func testCreateTask() async {
+    func test_createTask() async {
         let result = await repository.saveTask(title: "Test Task", comment: "This is a test task")
         
         switch result {
@@ -51,7 +63,7 @@ final class CoreDataTaskDatabaseTests: XCTestCase {
         }
     }
     
-    func testUpdateTask() async {
+    func test_updateTask() async {
         let createResult = await repository.saveTask(title: "Initial Task", comment: "Initial comment")
         
         guard case let .success(createdTask) = createResult else {
@@ -71,7 +83,7 @@ final class CoreDataTaskDatabaseTests: XCTestCase {
         }
     }
     
-    func testRemoveTask() async {
+    func test_removeTask() async {
         let createResult = await repository.saveTask(title: "Task to delete", comment: "Initial comment")
         
         guard case let .success(createdTask) = createResult else {
@@ -99,7 +111,7 @@ final class CoreDataTaskDatabaseTests: XCTestCase {
         }
     }
 
-    func testFetchAllTasks() async {
+    func test_fetchAllTasks() async {
         let _ = await repository.saveTask(title: "Task 1", comment: "Comment 1")
         let _ = await repository.saveTask(title: "Task 2", comment: "Comment 2")
         
@@ -117,7 +129,7 @@ final class CoreDataTaskDatabaseTests: XCTestCase {
         }
     }
     
-    func testFetchIncompleteTasks() async {
+    func test_fetchIncompleteTasks() async {
         await repository.saveTask(title: "Task 1", comment: nil, isCompleted: true)
         await repository.saveTask(title: "Task 2", comment: nil)
         await repository.saveTask(title: "Task 3", comment: nil, isCompleted: true)
@@ -132,7 +144,7 @@ final class CoreDataTaskDatabaseTests: XCTestCase {
         }
     }
 
-    func testSearchTasksWithFilter() async {
+    func test_searchTasksWithFilter() async {
         await repository.saveTask(title: "Important Task", comment: nil, isCompleted: true)
         await repository.saveTask(title: "Less Important Task", comment: nil)
         await repository.saveTask(title: "Another Task", comment: nil)
@@ -154,5 +166,4 @@ final class CoreDataTaskDatabaseTests: XCTestCase {
             XCTFail("Failed to search for incomplete tasks: \(error)")
         }
     }
-
 }

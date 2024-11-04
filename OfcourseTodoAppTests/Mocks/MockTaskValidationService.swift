@@ -15,4 +15,8 @@ final class MockTaskValidationService: TaskValidationServiceProtocol {
     func validateTitle(_ title: String) -> ShowableError? {
         return validationError
     }
+    
+    func validateComment(_ comment: String) -> ShowableError? {
+        return validationError
+    }
 }

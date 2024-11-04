@@ -13,7 +13,7 @@ struct TaskObject: Hashable {
     let id: UUID
     let title: String
     let comment: String?
-    let isCompleted: Bool
+    var isCompleted: Bool
     let dateCreated: Date
     
     init(id: UUID, title: String, comment: String?, isCompleted: Bool = false, dateCreated: Date? = Date()) {
@@ -22,5 +22,9 @@ struct TaskObject: Hashable {
         self.comment = comment
         self.isCompleted = isCompleted
         self.dateCreated = dateCreated ?? Date()
+    }
+    
+    mutating func toggleIsCompleted() {
+        isCompleted = !isCompleted
     }
 }
