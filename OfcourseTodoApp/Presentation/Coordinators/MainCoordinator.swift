@@ -15,7 +15,7 @@ protocol Closable {
     var close: () -> Void { get }
 }
 
-struct NewTaskViewModelActions: Closable {
+struct TaskViewModelActions: Closable {
     var close: () -> Void
 }
 
@@ -45,14 +45,16 @@ final class MainCoordinator {
         navigationController?.popViewController(animated: true)
     }
     
-    private func showDetailsForTask(id: UUID) {
-        addTask()
+    private func showDetailsForTask(id: UUID?) {
+        let actions = TaskViewModelActions(close: back)
+        let vc = dependencyContainer.makeTaskViewController(id: id, actions: actions)
+        
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     private func addTask() {
-        let actions = NewTaskViewModelActions(close: back)
-        
-        let vc = dependencyContainer.makeAddTaskViewController(actions: actions)
+        let actions = TaskViewModelActions(close: back)
+        let vc = dependencyContainer.makeTaskViewController(id: nil, actions: actions)
         
         navigationController?.pushViewController(vc, animated: true)
     }

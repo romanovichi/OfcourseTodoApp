@@ -75,13 +75,15 @@ final class AppDIContainer {
     }
     
     // MARK: - Add Task
-    func makeAddTaskViewController(actions: NewTaskViewModelActions) -> NewTaskViewController {
-        NewTaskViewController(viewModel: makeAddTaskViewModel(actions: actions))
+    func makeTaskViewController(id: UUID?, actions: TaskViewModelActions) -> TaskViewController {
+        TaskViewController(viewModel: makeAddTaskViewModel(id: id, actions: actions))
     }
     
-    func makeAddTaskViewModel(actions: NewTaskViewModelActions) -> NewTaskViewModel {
-        NewTaskViewModel(addNewTaskUseCase: addNewTaskUseCase,
-                         actions: actions)
+    func makeAddTaskViewModel(id: UUID?, actions: TaskViewModelActions) -> TaskViewModel {
+        TaskViewModel(id: id,
+                      taskActionsUseCase: taskActionsUseCase,
+                      addNewTaskUseCase: addNewTaskUseCase,
+                      actions: actions)
     }
     
     

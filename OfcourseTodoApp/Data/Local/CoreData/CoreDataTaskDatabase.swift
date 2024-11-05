@@ -130,7 +130,8 @@ class CoreDataTaskDatabase: TaskDatabaseProtocol {
     func fetchAllTasks() async -> Result<[TaskObject], Error> {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
-        
+        fetchRequest.returnsObjectsAsFaults = false
+
         do {
             let taskEntities = try context.fetch(fetchRequest)
             let tasks = taskEntities.map { TaskMapper.mapToObject(taskEntity: $0) }

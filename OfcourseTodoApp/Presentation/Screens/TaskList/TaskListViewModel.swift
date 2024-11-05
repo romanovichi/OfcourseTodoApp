@@ -10,12 +10,13 @@ import RxSwift
 import RxCocoa
 
 struct TaskListViewModelActions {
-    let showDetailsForTask: (UUID) -> Void
+    let showDetailsForTask: (UUID?) -> Void
     let addNewTask: () -> Void
 }
 
 protocol TaskListViewModelInput {
     func initialLoad()
+    func updateData()
     func addNewTask()
     func toggleCompletionFilter()
     func search(by title: String)
@@ -32,6 +33,7 @@ protocol TaskListViewModelOutput {
     var updatedItem: BehaviorSubject<TaskListCellViewModel?> { get }
     var taskCellViewModels: BehaviorSubject<[TaskListCellViewModel]> { get }
     var error: BehaviorSubject<String> { get }
+    var isIncompleteFilter: BehaviorSubject<Bool> { get }
 }
 
 typealias TaskListViewModelProtocol = TaskListViewModelInput & TaskListViewModelOutput
@@ -49,10 +51,12 @@ final class TaskListViewModel: TaskListViewModelProtocol, TaskListViewModelCellE
     private(set) var updatedItem = BehaviorSubject<TaskListCellViewModel?>(value: nil)
     private(set) var taskCellViewModels = BehaviorSubject<[TaskListCellViewModel]>(value: [])
     private(set) var error = BehaviorSubject<String>(value: "")
+    private(set) var isIncompleteFilter = BehaviorSubject<Bool>(value: false)
 
     @MainActor
     private var isIncompleteFilterEnabled = false {
         didSet {
+            isIncompleteFilter.onNext(isIncompleteFilterEnabled)
             onCompletionFilterChanged()
         }
     }
@@ -84,6 +88,11 @@ extension TaskListViewModel {
     
     @MainActor
     func initialLoad() {
+        fetchAllTasks()
+    }
+    
+    @MainActor
+    func updateData() {
         fetchAllTasks()
     }
     

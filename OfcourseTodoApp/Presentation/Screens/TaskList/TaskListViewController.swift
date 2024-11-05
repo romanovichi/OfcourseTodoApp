@@ -8,21 +8,6 @@
 import UIKit
 import RxSwift
 import RxCocoa
-
-protocol Alertable {}
-extension Alertable where Self: UIViewController {
-    
-    func showAlert(
-        title: String = "",
-        message: String,
-        preferredStyle: UIAlertController.Style = .alert,
-        completion: (() -> Void)? = nil
-    ) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-        self.present(alert, animated: true, completion: completion)
-    }
-}
 class TaskListViewController: UIViewController {
     
     enum Section {
@@ -34,7 +19,7 @@ class TaskListViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var toDoOnlyButton: UIButton!
+    @IBOutlet weak var toDoOnlyButton: TodoButton!
     
     private var dataSource: UITableViewDiffableDataSource<Section, TaskListCellViewModel>!
     private var viewModel: TaskListViewModelProtocol!
@@ -54,12 +39,22 @@ class TaskListViewController: UIViewController {
         setupDataSource()
         setupNavigationBar()
         setupSearchBar()
-        
+        configureTableView()
         setupBindings()
-        tableView.register(TaskListCell.self, forCellReuseIdentifier: "TaskListCell")
-        tableView.rowHeight = 60
-
+        
         viewModel.initialLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.updateData()
+    }
+    
+    private func configureTableView() {
+        tableView.rowHeight = 60
+        tableView.delegate = self
+        tableView.allowsSelection = true
+        tableView.register(TaskListCell.self, forCellReuseIdentifier: "TaskListCell")
     }
     
     private func setupNavigationBar() {
@@ -86,13 +81,29 @@ class TaskListViewController: UIViewController {
     }
     
     private func setupBindings() {
-        
+        bindTaskCellViewModels()
+        bindIsIncompleteFilter()
+        bindErrorMessages()
+    }
+    
+    private func bindTaskCellViewModels() {
         viewModel.taskCellViewModels
+            .skip(1)
             .subscribe(onNext: { [weak self] in
                 self?.updateTaskCells($0)
             })
             .disposed(by: disposeBag)
-        
+    }
+
+    private func bindIsIncompleteFilter() {
+        viewModel.isIncompleteFilter
+            .subscribe(onNext: { [weak self] in
+                self?.toDoOnlyButton.isSelected = $0
+            })
+            .disposed(by: disposeBag)
+    }
+
+    private func bindErrorMessages() {
         viewModel.error
             .skip(1)
             .subscribe(onNext: { [weak self] in
@@ -103,11 +114,9 @@ class TaskListViewController: UIViewController {
     
     private func setupDataSource() {
         dataSource = UITableViewDiffableDataSource<Section, TaskListCellViewModel>(tableView: tableView) { (tableView, indexPath, viewModel) -> UITableViewCell? in
-            if let cell = tableView.dequeueReusableCell(withIdentifier: "TaskListCell", for: indexPath) as? TaskListCell {
-                cell.configure(with: viewModel)
-                return cell
-            }
-            return nil
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "TaskListCell", for: indexPath) as? TaskListCell else { return nil }
+            cell.configure(with: viewModel)
+            return cell
         }
     }
     
@@ -116,18 +125,11 @@ class TaskListViewController: UIViewController {
         
         let incompleteTasks = tasks.filter { !$0.isCompleted }
         let completedTasks = tasks.filter { $0.isCompleted }
-        
-        snapshot.appendSections([.incomplete])
-        snapshot.appendSections([.completed])
 
-        if !incompleteTasks.isEmpty {
-            snapshot.appendItems(incompleteTasks, toSection: .incomplete)
-        }
-        
-        if !completedTasks.isEmpty {
-            snapshot.appendItems(completedTasks, toSection: .completed)
-        }
-        
+        snapshot.appendSections([.incomplete, .completed])
+        snapshot.appendItems(incompleteTasks, toSection: .incomplete)
+        snapshot.appendItems(completedTasks, toSection: .completed)
+
         dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
