@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 struct TaskListViewModelActions {
-    let showTaskDetails: (TaskObject) -> Void
+    let showDetailsForTask: (UUID) -> Void
     let addNewTask: () -> Void
 }
 
@@ -20,7 +20,7 @@ protocol TaskListViewModelInput {
     func toggleCompletionFilter()
     func search(by title: String)
     func resetSearch()
-    func showItemWith(id: Int)
+    func showItemWith(id: UUID)
 }
 
 protocol TaskListViewModelCellEventInput: AnyObject {
@@ -78,8 +78,8 @@ extension TaskListViewModel {
         actions?.addNewTask()
     }
     
-    func showItemWith(id index: Int) {
-        actions?.showTaskDetails(tasks[index])
+    func showItemWith(id: UUID) {
+        actions?.showDetailsForTask(id)
     }
     
     @MainActor
@@ -117,13 +117,22 @@ extension TaskListViewModel {
         }
     }
     
+    private func updateTask(_ task: TaskObject) {
+        var currentTasks = try? taskCellViewModels.value()
+        currentTasks?.updateWithElement(TaskListCellViewModel(task: task, delegate: self))
+        
+        if let updatedTasks = currentTasks {
+            taskCellViewModels.onNext(updatedTasks)
+        }
+    }
+    
     @MainActor
     func completeTaskWith(id: UUID) {
         Task {
             let result = await changeTaskStatusUseCase.changeStatusForTask(with: id)
             switch result {
             case .success(let completedTask):
-                self.updatedItem.onNext(TaskListCellViewModel(task: completedTask, delegate: self))
+                self.updateTask(completedTask)
             case .failure(let error):
                 self.error.onNext(error.description)
             }
@@ -132,15 +141,6 @@ extension TaskListViewModel {
 }
 
 extension TaskListViewModel {
-    
-    @MainActor
-    private func mapAndUpdateToTaskListCellViewModel(at index: Int, task: TaskObject) {
-        let taskListCellViewModel = TaskListCellViewModel(task: task, delegate: self)
-        var currentTaskCellViewModels = try! taskCellViewModels.value()
-        
-        currentTaskCellViewModels[index] = taskListCellViewModel
-        taskCellViewModels.onNext(currentTaskCellViewModels)
-    }
     
     @MainActor
     private func mapToTaskListCellViewModels(_ tasks: [TaskObject]) {
@@ -154,7 +154,6 @@ extension TaskListViewModel {
             let result = await fetchTasksUseCase.fetchAllTasks()
             switch result {
             case .success(let fetchedTasks):
-                tasks = fetchedTasks
                 mapToTaskListCellViewModels(fetchedTasks)
             case .failure(let error):
                 self.error.onNext(error.description)

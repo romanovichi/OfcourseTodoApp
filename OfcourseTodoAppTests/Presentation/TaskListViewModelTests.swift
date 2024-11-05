@@ -60,14 +60,17 @@ final class TaskListViewModelTests: XCTestCase {
 
         let testTask = TaskObject(id: UUID(), title: "Test Task 1", comment: "", isCompleted: false)
 
-        setupEnvironment(fetchTasksUseCaseResult: .success([testTask]))
+        setupEnvironment(fetchTasksUseCaseResult: .success([testTask]),
+                         changeTaskStatusUseCaseInitData: testTask)
         
         await viewModel.initialLoad()
 
-        viewModel.updatedItem
+        viewModel.taskCellViewModels
             .skip(1)
-            .subscribe(onNext: { taskCellViewModel in
-                XCTAssertTrue(taskCellViewModel!.isCompleted)
+            .subscribe(onNext: { taskCellViewModels in
+                if let completedTask = taskCellViewModels.filter({ $0.id == testTask.id }).first {
+                    XCTAssertTrue(completedTask.isCompleted)
+                }
                 expectation.fulfill()
             })
             .disposed(by: disposeBag)
@@ -102,7 +105,6 @@ final class TaskListViewModelTests: XCTestCase {
         // then
         XCTAssertTrue(fetchTasksUseCase.isFetchIncompletedTasksCalled)
         XCTAssertTrue(fetchTasksUseCase.isFetchAllTasksCalled)
-        
     }
     
     func test_didSelectTask() async {
@@ -119,11 +121,11 @@ final class TaskListViewModelTests: XCTestCase {
         
         await fulfillment(of: [expectation])
         
-        viewModel.showItemWith(id: 0)
+        viewModel.showItemWith(id: taskToShow.id)
         
         // then
         XCTAssertTrue(actions.didShowTaskDetails)
-        XCTAssertEqual(actions.shownTask, taskToShow)
+        XCTAssertEqual(actions.shownTaskId, taskToShow.id)
     }
 
     func test_dddNewTask() {

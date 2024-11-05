@@ -34,13 +34,8 @@ final class MockFetchTasksUseCase: FetchTasksUseCaseProtocol {
         isSearchByCalled = true
         switch result {
         case .success(let tasks):
-            if title.isEmpty {
-                return .success(tasks) // Возвращаем полный список, если строка пустая
-            } else {
-                // Возвращаем отфильтрованные задачи, если строка не пустая
-                let filteredTasks = tasks.filter { $0.title.contains(title) }
-                return .success(filteredTasks)
-            }
+            let filteredTasks = tasks.filter { $0.title.contains(title) }
+            return .success(filteredTasks)
         case .failure(let error):
             return .failure(error)
         }

@@ -32,7 +32,7 @@ final class MainCoordinator {
     }
     
     func start() {
-        let actions = TaskListViewModelActions(showTaskDetails: showTaskDetails,
+        let actions = TaskListViewModelActions(showDetailsForTask: showDetailsForTask,
                                                addNewTask: addTask)
         
         let vc = dependencyContainer.makeMoviesListViewController(actions: actions)
@@ -45,7 +45,7 @@ final class MainCoordinator {
         navigationController?.popViewController(animated: true)
     }
     
-    private func showTaskDetails(movie: TaskObject) {
+    private func showDetailsForTask(id: UUID) {
         addTask()
     }
 

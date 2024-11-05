@@ -93,12 +93,6 @@ class TaskListViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        viewModel.updatedItem
-            .subscribe(onNext: { [weak self] in
-                self?.updateSingleTask($0)
-            })
-            .disposed(by: disposeBag)
-        
         viewModel.error
             .skip(1)
             .subscribe(onNext: { [weak self] in
@@ -136,22 +130,6 @@ class TaskListViewController: UIViewController {
         
         dataSource.apply(snapshot, animatingDifferences: true)
     }
-    
-    private func updateSingleTask(_ updatedItem: TaskListCellViewModel?) {
-        
-        guard let updatedItem = updatedItem else { return }
-        
-        var snapshot = dataSource.snapshot()
-        
-        if let currentItem = snapshot.itemIdentifiers.first(where: { $0.id == updatedItem.id }) {
-            snapshot.deleteItems([currentItem])
-        }
-        
-        let section: Section = updatedItem.isCompleted ? .completed : .incomplete
-        snapshot.appendItems([updatedItem], toSection: section)
-        
-        dataSource.apply(snapshot, animatingDifferences: true)
-    }
 }
 
 extension TaskListViewController: Alertable {
@@ -168,7 +146,7 @@ extension TaskListViewController: UITableViewDelegate {
         guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
         
         print("Selected item: \(item.title)")
-        viewModel.showItemWith(id: indexPath.row)
+        viewModel.showItemWith(id: item.id)
         
         tableView.deselectRow(at: indexPath, animated: true)
     }

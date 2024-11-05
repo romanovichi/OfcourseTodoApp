@@ -11,13 +11,13 @@ import Foundation
 final class MockTaskListViewModelActions {
     private(set) var didShowTaskDetails = false
     private(set) var didAddNewTask = false
-    private(set) var shownTask: TaskObject?
+    private(set) var shownTaskId: UUID?
 
     func makeActions() -> TaskListViewModelActions {
         return TaskListViewModelActions(
-            showTaskDetails: { [weak self] task in
+            showDetailsForTask: { [weak self] id in
                 self?.didShowTaskDetails = true
-                self?.shownTask = task
+                self?.shownTaskId = id
             },
             addNewTask: { [weak self] in
                 self?.didAddNewTask = true
