@@ -9,6 +9,7 @@ import Foundation
 @testable import OfcourseTodoApp
 
 final class MockTaskRepository: TaskRepositoryProtocol {
+    
     var tasks: [TaskObject] = []
 
     func saveTask(title: String, comment: String?) async -> Result<TaskObject, Error> {
@@ -16,14 +17,22 @@ final class MockTaskRepository: TaskRepositoryProtocol {
         tasks.append(task)
         return .success(task)
     }
+    
+    func changeTaskStatus(with id: UUID) async -> Result<OfcourseTodoApp.TaskObject, any Error> {
+        if let index = tasks.firstIndex(where: { $0.id == id }) {
+            tasks[index].toggleIsCompleted()
+            return .success(tasks[index])
+        } else {
+            return .failure(NSError(domain: "TaskObject not found", code: 404, userInfo: nil))
+        }
+    }
 
-    func updateTask(with id: UUID, title: String, comment: String?, isCompleted: Bool?) async -> Result<TaskObject, Error> {
+    func updateTask(with id: UUID, title: String, comment: String?) async -> Result<TaskObject, any Error> {
         if let index = tasks.firstIndex(where: { $0.id == id }) {
             let updatedTask = TaskObject(
                 id: id,
                 title: title,
-                comment: comment ?? tasks[index].comment,
-                isCompleted: isCompleted ?? tasks[index].isCompleted
+                comment: comment ?? tasks[index].comment
             )
             tasks[index] = updatedTask
             return .success(updatedTask)

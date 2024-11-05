@@ -9,7 +9,7 @@ import Foundation
 @testable import OfcourseTodoApp
 
 final class MockTaskDatabase: TaskDatabaseProtocol {
-    
+  
     var tasks: [TaskObject] = []
     
     @discardableResult
@@ -19,9 +19,17 @@ final class MockTaskDatabase: TaskDatabaseProtocol {
         return .success(task)
     }
     
-    func updateTask(with id: UUID, title: String, comment: String?, isCompleted: Bool?) async -> Result<TaskObject, Error> {
+    func changeTaskStatus(with id: UUID) async -> Result<TaskObject, any Error> {
         if let index = tasks.firstIndex(where: { $0.id == id }) {
-            let task = TaskObject(id: id, title: title, comment: comment, isCompleted: isCompleted ?? tasks[index].isCompleted)
+            tasks[index].toggleIsCompleted()
+            return .success(tasks[index])
+        }
+        return .failure(NSError(domain: "TaskErrorDomain", code: 404, userInfo: [NSLocalizedDescriptionKey: "TaskObject not found"]))
+    }
+    
+    func updateTask(with id: UUID, title: String, comment: String?) async -> Result<TaskObject, any Error> {
+        if let index = tasks.firstIndex(where: { $0.id == id }) {
+            let task = TaskObject(id: id, title: title, comment: comment)
             tasks[index] = task
             return .success(tasks[index])
         }

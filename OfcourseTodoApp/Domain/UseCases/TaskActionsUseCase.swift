@@ -46,7 +46,7 @@ final class TaskActionsUseCase: TaskActionsUseCaseProtocol {
             return .failure(validationError)
         }
         
-        let result = await taskRepository.updateTask(with: id, title: title, comment: comment, isCompleted: isCompleted)
+        let result = await taskRepository.updateTask(with: id, title: title, comment: comment)
         switch result {
         case .success(let success):
             return .success(success)

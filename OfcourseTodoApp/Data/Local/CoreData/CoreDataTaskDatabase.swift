@@ -11,7 +11,8 @@ import CoreData
 protocol TaskDatabaseProtocol {
     @discardableResult
     func saveTask(title: String, comment: String?, isCompleted: Bool) async -> Result<TaskObject, Error>
-    func updateTask(with id: UUID, title: String, comment: String?, isCompleted: Bool?) async -> Result<TaskObject, Error>
+    func changeTaskStatus(with id: UUID) async -> Result<TaskObject, any Error>
+    func updateTask(with id: UUID, title: String, comment: String?) async -> Result<TaskObject, Error>
     func removeTask(by id: UUID) async -> Result<Bool, Error>
     
     func fetchTask(by id: UUID) async -> Result<TaskObject, Error>
@@ -22,7 +23,7 @@ protocol TaskDatabaseProtocol {
 }
 
 class CoreDataTaskDatabase: TaskDatabaseProtocol {
-
+    
     private let persistentContainer: NSPersistentContainer
     
     init(persistentContainer: NSPersistentContainer) {
@@ -65,8 +66,28 @@ class CoreDataTaskDatabase: TaskDatabaseProtocol {
             return .failure(error)
         }
     }
+    
+    func changeTaskStatus(with id: UUID) async -> Result<TaskObject, any Error> {
+        let context = persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "uuid == %@", id as CVarArg)
 
-    func updateTask(with id: UUID, title: String, comment: String?, isCompleted: Bool?) async -> Result<TaskObject, Error> {
+        do {
+            if let taskEntity = try context.fetch(fetchRequest).first {
+                taskEntity.isCompleted.toggle()
+
+                try saveContext()
+                return .success(TaskMapper.mapToObject(taskEntity: taskEntity))
+            } else {
+                return .failure(NSError(domain: "TaskObject not found", code: 404, userInfo: nil))
+            }
+        } catch {
+            print("Failed to update task: \(error)")
+            return .failure(error)
+        }
+    }
+
+    func updateTask(with id: UUID, title: String, comment: String?) async -> Result<TaskObject, any Error> {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "uuid == %@", id as CVarArg)
@@ -75,7 +96,6 @@ class CoreDataTaskDatabase: TaskDatabaseProtocol {
             if let taskEntity = try context.fetch(fetchRequest).first {
                 taskEntity.title = title
                 taskEntity.comment = comment
-                taskEntity.isCompleted = isCompleted ?? taskEntity.isCompleted
 
                 try saveContext()
                 return .success(TaskMapper.mapToObject(taskEntity: taskEntity))

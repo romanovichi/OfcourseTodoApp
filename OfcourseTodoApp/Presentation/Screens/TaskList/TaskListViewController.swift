@@ -23,16 +23,18 @@ extension Alertable where Self: UIViewController {
         self.present(alert, animated: true, completion: completion)
     }
 }
-
 class TaskListViewController: UIViewController {
     
     enum Section {
-        case main
+        case incomplete
+        case completed
     }
     
     private let disposeBag = DisposeBag()
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var toDoOnlyButton: UIButton!
     
     private var dataSource: UITableViewDiffableDataSource<Section, TaskListCellViewModel>!
     private var viewModel: TaskListViewModelProtocol!
@@ -51,6 +53,7 @@ class TaskListViewController: UIViewController {
         
         setupDataSource()
         setupNavigationBar()
+        setupSearchBar()
         
         setupBindings()
         tableView.register(TaskListCell.self, forCellReuseIdentifier: "TaskListCell")
@@ -69,8 +72,17 @@ class TaskListViewController: UIViewController {
         )
     }
     
+    @IBAction func didTapToDoOnlyButton(_ sender: Any) {
+        viewModel.toggleCompletionFilter()
+    }
+    
     @objc private func didTapAddTask() {
         viewModel.addNewTask()
+    }
+    
+    private func setupSearchBar() {
+        searchBar.delegate = self
+        searchBar.placeholder = "Search for task"
     }
     
     private func setupBindings() {
@@ -81,6 +93,12 @@ class TaskListViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        viewModel.updatedItem
+            .subscribe(onNext: { [weak self] in
+                self?.updateSingleTask($0)
+            })
+            .disposed(by: disposeBag)
+        
         viewModel.error
             .skip(1)
             .subscribe(onNext: { [weak self] in
@@ -88,7 +106,6 @@ class TaskListViewController: UIViewController {
             })
             .disposed(by: disposeBag)
     }
-    
     
     private func setupDataSource() {
         dataSource = UITableViewDiffableDataSource<Section, TaskListCellViewModel>(tableView: tableView) { (tableView, indexPath, viewModel) -> UITableViewCell? in
@@ -102,8 +119,37 @@ class TaskListViewController: UIViewController {
     
     private func updateTaskCells(_ tasks: [TaskListCellViewModel]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, TaskListCellViewModel>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(tasks)
+        
+        let incompleteTasks = tasks.filter { !$0.isCompleted }
+        let completedTasks = tasks.filter { $0.isCompleted }
+        
+        snapshot.appendSections([.incomplete])
+        snapshot.appendSections([.completed])
+
+        if !incompleteTasks.isEmpty {
+            snapshot.appendItems(incompleteTasks, toSection: .incomplete)
+        }
+        
+        if !completedTasks.isEmpty {
+            snapshot.appendItems(completedTasks, toSection: .completed)
+        }
+        
+        dataSource.apply(snapshot, animatingDifferences: true)
+    }
+    
+    private func updateSingleTask(_ updatedItem: TaskListCellViewModel?) {
+        
+        guard let updatedItem = updatedItem else { return }
+        
+        var snapshot = dataSource.snapshot()
+        
+        if let currentItem = snapshot.itemIdentifiers.first(where: { $0.id == updatedItem.id }) {
+            snapshot.deleteItems([currentItem])
+        }
+        
+        let section: Section = updatedItem.isCompleted ? .completed : .incomplete
+        snapshot.appendItems([updatedItem], toSection: section)
+        
         dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
@@ -128,3 +174,9 @@ extension TaskListViewController: UITableViewDelegate {
     }
 }
 
+extension TaskListViewController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.search(by: searchText)
+    }
+}

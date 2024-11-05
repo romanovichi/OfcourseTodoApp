@@ -23,15 +23,15 @@ protocol TaskListViewModelInput {
     func showItemWith(id: Int)
 }
 
-protocol TaskListViewModelCellEventInput {
-    func completeTaskWith(id: Int)
+protocol TaskListViewModelCellEventInput: AnyObject {
+    func completeTaskWith(id: UUID)
 }
 
 protocol TaskListViewModelOutput {
     var errorTitle: String { get }
+    var updatedItem: BehaviorSubject<TaskListCellViewModel?> { get }
     var taskCellViewModels: BehaviorSubject<[TaskListCellViewModel]> { get }
     var error: BehaviorSubject<String> { get }
-
 }
 
 typealias TaskListViewModelProtocol = TaskListViewModelInput & TaskListViewModelOutput
@@ -46,6 +46,7 @@ final class TaskListViewModel: TaskListViewModelProtocol, TaskListViewModelCellE
     
     let errorTitle = NSLocalizedString("Error", comment: "")
     
+    private(set) var updatedItem = BehaviorSubject<TaskListCellViewModel?>(value: nil)
     private(set) var taskCellViewModels = BehaviorSubject<[TaskListCellViewModel]>(value: [])
     private(set) var error = BehaviorSubject<String>(value: "")
 
@@ -73,13 +74,17 @@ extension TaskListViewModel {
     
     // MARK: - INPUT. View event methods
     
+    func addNewTask() {
+        actions?.addNewTask()
+    }
+    
+    func showItemWith(id index: Int) {
+        actions?.showTaskDetails(tasks[index])
+    }
+    
     @MainActor
     func initialLoad() {
         fetchAllTasks()
-    }
-    
-    func addNewTask() {
-        actions?.addNewTask()
     }
     
     @MainActor
@@ -88,7 +93,18 @@ extension TaskListViewModel {
     }
     
     @MainActor
+    func resetSearch() {
+        fetchAllTasks()
+    }
+    
+    @MainActor
     func search(by title: String) {
+        
+        if title.isEmpty {
+            resetSearch()
+            return
+        }
+        
         Task {
             let result = await fetchTasksUseCase.searchTasks(by: title,
                                                              includeOnlyIncomplete: isIncompleteFilterEnabled)
@@ -101,22 +117,13 @@ extension TaskListViewModel {
         }
     }
     
-    func resetSearch() {
-        
-    }
-    
-    func showItemWith(id index: Int) {
-        actions?.showTaskDetails(tasks[index])
-    }
-    
     @MainActor
-    func completeTaskWith(id index: Int) {
+    func completeTaskWith(id: UUID) {
         Task {
-            let result = await changeTaskStatusUseCase.changeStatusForTask(with: tasks[index].id, isCompleted: true)
+            let result = await changeTaskStatusUseCase.changeStatusForTask(with: id)
             switch result {
             case .success(let completedTask):
-                tasks[index] = completedTask
-                mapAndUpdateToTaskListCellViewModel(at: index, task: completedTask)
+                self.updatedItem.onNext(TaskListCellViewModel(task: completedTask, delegate: self))
             case .failure(let error):
                 self.error.onNext(error.description)
             }
@@ -128,7 +135,7 @@ extension TaskListViewModel {
     
     @MainActor
     private func mapAndUpdateToTaskListCellViewModel(at index: Int, task: TaskObject) {
-        let taskListCellViewModel = TaskListCellViewModel(task: task)
+        let taskListCellViewModel = TaskListCellViewModel(task: task, delegate: self)
         var currentTaskCellViewModels = try! taskCellViewModels.value()
         
         currentTaskCellViewModels[index] = taskListCellViewModel
@@ -136,12 +143,9 @@ extension TaskListViewModel {
     }
     
     @MainActor
-    func mapToTaskListCellViewModels(_ tasks: [TaskObject]) {
-        // Преобразуем массив `TaskObject` в массив `TaskListCellViewModel`
-        let cellViewModels = tasks.map { task in
-            TaskListCellViewModel(id: task.id, title: task.title, isCompleted: task.isCompleted)
-        }
-        self.taskCellViewModels.onNext(cellViewModels) // Обновляем observable
+    private func mapToTaskListCellViewModels(_ tasks: [TaskObject]) {
+        let cellViewModels = tasks.mapToSortedCellViewModels(delegate: self)
+        self.taskCellViewModels.onNext(cellViewModels)
     }
     
     @MainActor
@@ -204,7 +208,7 @@ class MockFetchTasksUseCase: FetchTasksUseCaseProtocol {
     ]
     
     func fetchAllTasks() async -> Result<[TaskObject], ShowableError> {
-        return .failure(ShowableError.fetchDatabaseError)
+        return .success(mockTasks)
     }
     
     func fetchIncompleteTasks() async -> Result<[TaskObject], ShowableError> {

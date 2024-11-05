@@ -10,7 +10,8 @@ import Foundation
 protocol TaskRepositoryProtocol {
     @discardableResult
     func saveTask(title: String, comment: String?) async -> Result<TaskObject, Error>
-    func updateTask(with id: UUID, title: String, comment: String?, isCompleted: Bool?) async -> Result<TaskObject, Error>
+    func changeTaskStatus(with id: UUID) async -> Result<TaskObject, Error>
+    func updateTask(with id: UUID, title: String, comment: String?) async -> Result<TaskObject, Error>
     func removeTask(by id: UUID) async -> Result<Bool, Error>
     
     func fetchTask(by id: UUID) async -> Result<TaskObject, Error>

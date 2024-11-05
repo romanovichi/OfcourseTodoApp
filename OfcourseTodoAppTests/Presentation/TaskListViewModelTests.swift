@@ -58,20 +58,22 @@ final class TaskListViewModelTests: XCTestCase {
         // given
         let expectation = XCTestExpectation(description: "Data loaded and task status updated")
 
-        setupEnvironment()
+        let testTask = TaskObject(id: UUID(), title: "Test Task 1", comment: "", isCompleted: false)
+
+        setupEnvironment(fetchTasksUseCaseResult: .success([testTask]))
+        
         await viewModel.initialLoad()
 
-        viewModel.taskCellViewModels
+        viewModel.updatedItem
             .skip(1)
-            .subscribe(onNext: { taskCellViewModels in
-                XCTAssertEqual(taskCellViewModels.count, 2)
-                XCTAssertTrue(taskCellViewModels.first!.isCompleted)
+            .subscribe(onNext: { taskCellViewModel in
+                XCTAssertTrue(taskCellViewModel!.isCompleted)
                 expectation.fulfill()
             })
             .disposed(by: disposeBag)
 
         // when
-        await viewModel.completeTaskWith(id: 0)
+        await viewModel.completeTaskWith(id: testTask.id)
         
         // then
         await fulfillment(of: [expectation], timeout: 1.0)
@@ -216,56 +218,6 @@ final class TaskListViewModelTests: XCTestCase {
         XCTAssertTrue(fetchTasksUseCase.isSearchByCalled)
     }
     
-    func test_searchResetsOnEmptyQuery() async {
-        
-        // given
-        let expectation = XCTestExpectation(description: "Tasks fetched and reset on empty search query")
-        
-        let initialTasks = [
-            TaskObject(id: UUID(), title: "Test Task 1", comment: "", isCompleted: false),
-            TaskObject(id: UUID(), title: "Another Task", comment: "", isCompleted: true)
-        ]
-        
-        setupEnvironment(fetchTasksUseCaseResult: .success(initialTasks))
-        
-        var fetchedTaskTitles: [String] = []
-        viewModel.taskCellViewModels
-            .skip(1)
-            .subscribe(onNext: { tasks in
-                fetchedTaskTitles = tasks.map { $0.title }
-                expectation.fulfill()
-            })
-            .disposed(by: disposeBag)
-        
-        // when
-        await viewModel.search(by: "Test")
-        
-        // then
-        await fulfillment(of: [expectation])
-        XCTAssertTrue(fetchTasksUseCase.isSearchByCalled)
-        XCTAssertEqual(fetchedTaskTitles, ["Test Task 1"], "После поиска по 'Test' должен остаться только 'Test Task 1'")
-        
-        // Reset expectation
-        let resetExpectation = XCTestExpectation(description: "Tasks reset on empty search query")
-        
-        viewModel.taskCellViewModels
-            .skip(1)
-            .subscribe(onNext: { tasks in
-                fetchedTaskTitles = tasks.map { $0.title }
-                resetExpectation.fulfill()
-            })
-            .disposed(by: disposeBag)
-        
-        // when
-        await viewModel.search(by: "")
-        
-        // then
-        await fulfillment(of: [resetExpectation])
-        XCTAssertEqual(fetchedTaskTitles, ["Test Task 1", "Another Task"], "При пустом поисковом запросе должен вернуться полный список задач.")
-        XCTAssertTrue(fetchTasksUseCase.isSearchByCalled)
-    }
-
-    
     func test_searchNonexistentSuccess() async {
         // given
         let expectation = XCTestExpectation(description: "Tasks fetched successfully")
@@ -316,6 +268,100 @@ final class TaskListViewModelTests: XCTestCase {
         
         XCTAssertEqual(receivedErrorMessage, expectedError.description, "Ошибка должна передаваться в свойство error.")
         XCTAssertTrue(fetchTasksUseCase.isSearchByCalled)
+    }
+    
+    func test_searchResetsOnEmptyQuery() async {
+        
+        // given
+        let expectation = XCTestExpectation(description: "Tasks fetched and reset on empty search query")
+        
+        let initialTasks = [
+            TaskObject(id: UUID(), title: "Test Task 1", comment: "", isCompleted: false),
+            TaskObject(id: UUID(), title: "Another Task", comment: "", isCompleted: true)
+        ]
+        
+        setupEnvironment(fetchTasksUseCaseResult: .success(initialTasks))
+        
+        var fetchedTaskTitles: [String] = []
+        viewModel.taskCellViewModels
+            .skip(1)
+            .subscribe(onNext: { tasks in
+                fetchedTaskTitles = tasks.map { $0.title }
+                expectation.fulfill()
+            })
+            .disposed(by: disposeBag)
+        
+        // when
+        await viewModel.search(by: "Test")
+        
+        // then
+        await fulfillment(of: [expectation])
+        XCTAssertTrue(fetchTasksUseCase.isSearchByCalled)
+        XCTAssertEqual(fetchedTaskTitles, ["Test Task 1"], "После поиска по 'Test' должен остаться только 'Test Task 1'")
+        
+        // Reset expectation
+        let resetExpectation = XCTestExpectation(description: "Tasks reset on empty search query")
+        
+        viewModel.taskCellViewModels
+            .skip(1)
+            .subscribe(onNext: { tasks in
+                fetchedTaskTitles = tasks.map { $0.title }
+                resetExpectation.fulfill()
+            })
+            .disposed(by: disposeBag)
+        
+        // when
+        await viewModel.search(by: "")
+        
+        // then
+        await fulfillment(of: [resetExpectation])
+        XCTAssertEqual(fetchedTaskTitles, ["Test Task 1", "Another Task"], "При пустом поисковом запросе должен вернуться полный список задач.")
+        XCTAssertTrue(fetchTasksUseCase.isSearchByCalled)
+    }
+
+    func test_resetSearchRestoresInitialTaskList() async {
+        
+        // given
+        let expectationSearch = XCTestExpectation(description: "Tasks filtered by search query")
+
+        let initialTasks = [
+            TaskObject(id: UUID(), title: "Test Task 1", comment: "", isCompleted: false),
+            TaskObject(id: UUID(), title: "Another Task", comment: "", isCompleted: true)
+        ]
+        
+        setupEnvironment(fetchTasksUseCaseResult: .success(initialTasks))
+        
+        var fetchedTaskTitles: [String] = []
+        viewModel.taskCellViewModels
+            .skip(1)
+            .subscribe(onNext: { tasks in
+                fetchedTaskTitles = tasks.map { $0.title }
+                expectationSearch.fulfill()
+            })
+            .disposed(by: disposeBag)
+        
+        // when
+        await viewModel.search(by: "Test")
+        
+        // then
+        await fulfillment(of: [expectationSearch])
+        XCTAssertEqual(fetchedTaskTitles, ["Test Task 1"], "После поиска по 'Test' должен остаться только 'Test Task 1'")
+        
+        let expectationReset = XCTestExpectation(description: "Tasks reset after calling resetSearch")
+        viewModel.taskCellViewModels
+            .skip(1)
+            .subscribe(onNext: { tasks in
+                fetchedTaskTitles = tasks.map { $0.title }
+                expectationReset.fulfill()
+            })
+            .disposed(by: disposeBag)
+        
+        // when
+        await viewModel.resetSearch()
+        
+        // then
+        await fulfillment(of: [expectationReset])
+        XCTAssertEqual(fetchedTaskTitles, ["Test Task 1", "Another Task"], "После сброса поиска должен вернуться полный список задач.")
     }
 
 }

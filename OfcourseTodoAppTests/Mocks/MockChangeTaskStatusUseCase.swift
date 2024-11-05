@@ -18,7 +18,7 @@ final class MockChangeTaskStatusUseCase: ChangeTaskStatusUseCaseProtocol {
         self.task = task
     }
 
-    func changeStatusForTask(with id: UUID, isCompleted: Bool) async -> Result<TaskObject, ShowableError> {
+    func changeStatusForTask(with id: UUID) async -> Result<TaskObject, ShowableError> {
         self.changeStatusForTaskCalled = true
         task.toggleIsCompleted()
         return .success(task)

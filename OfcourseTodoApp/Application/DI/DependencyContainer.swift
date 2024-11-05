@@ -68,7 +68,7 @@ final class AppDIContainer {
     }
     
     func makeMoviesListViewModel(actions: TaskListViewModelActions) -> TaskListViewModel {
-        TaskListViewModel(fetchTasksUseCase: mockFetchTasksUseCase,
+        TaskListViewModel(fetchTasksUseCase: fetchTasksUseCase,
                           changeTaskStatusUseCase: changeTaskStatusUseCase,
                           actions: actions
         )

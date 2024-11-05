@@ -8,7 +8,6 @@
 import Foundation
 
 class TaskRepository: TaskRepositoryProtocol {
-    
     var database: TaskDatabaseProtocol
     
     init(database: TaskDatabaseProtocol) {
@@ -19,8 +18,12 @@ class TaskRepository: TaskRepositoryProtocol {
         return await database.saveTask(title: title, comment: comment, isCompleted: false)
     }
     
-    func updateTask(with id: UUID, title: String, comment: String?, isCompleted: Bool?) async -> Result<TaskObject, Error> {
-        return await database.updateTask(with: id, title: title, comment: comment, isCompleted: isCompleted)
+    func changeTaskStatus(with id: UUID) async -> Result<TaskObject, any Error> {
+        return await database.changeTaskStatus(with: id)
+    }
+    
+    func updateTask(with id: UUID, title: String, comment: String?) async -> Result<TaskObject, any Error> {
+        return await database.updateTask(with: id, title: title, comment: comment)
     }
     
     func removeTask(by id: UUID) async -> Result<Bool, Error> {

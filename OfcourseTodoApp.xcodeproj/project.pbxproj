@@ -55,6 +55,7 @@
 		9EE80CDA2CD7DDA5007F44DB /* TaskListCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CD92CD7DDA5007F44DB /* TaskListCellViewModel.swift */; };
 		9EE80CDC2CD7E824007F44DB /* RxBlocking in Frameworks */ = {isa = PBXBuildFile; productRef = 9EE80CDB2CD7E824007F44DB /* RxBlocking */; };
 		9EE80CDF2CD93585007F44DB /* ShowableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CDE2CD93585007F44DB /* ShowableError.swift */; };
+		9EE80CE22CD9D7B9007F44DB /* Array+TaskObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CE12CD9D7B9007F44DB /* Array+TaskObject.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,6 +139,7 @@
 		9EE80CD72CD58CBB007F44DB /* MockTaskListViewModelActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTaskListViewModelActions.swift; sourceTree = "<group>"; };
 		9EE80CD92CD7DDA5007F44DB /* TaskListCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListCellViewModel.swift; sourceTree = "<group>"; };
 		9EE80CDE2CD93585007F44DB /* ShowableError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowableError.swift; sourceTree = "<group>"; };
+		9EE80CE12CD9D7B9007F44DB /* Array+TaskObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+TaskObject.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -225,6 +227,7 @@
 		9EB758B62CCCC1ED00D77F6B /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				9EE80CE02CD9D77E007F44DB /* Helpers */,
 				9EE80CAE2CCFBEFF007F44DB /* Screens */,
 				9EB758B72CCCC1F500D77F6B /* Coordinators */,
 			);
@@ -456,6 +459,14 @@
 			path = Presentation;
 			sourceTree = "<group>";
 		};
+		9EE80CE02CD9D77E007F44DB /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				9EE80CE12CD9D7B9007F44DB /* Array+TaskObject.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -602,6 +613,7 @@
 				9EE80CDF2CD93585007F44DB /* ShowableError.swift in Sources */,
 				9EB758C32CCCC5F500D77F6B /* DependencyContainer.swift in Sources */,
 				9EE80CCE2CD3F8BA007F44DB /* NewTaskViewModel.swift in Sources */,
+				9EE80CE22CD9D7B9007F44DB /* Array+TaskObject.swift in Sources */,
 				9EE80CBB2CD2891F007F44DB /* ChangeTaskStatusUseCase.swift in Sources */,
 				9EB758BC2CCCC35600D77F6B /* IBaseCoordinator.swift in Sources */,
 				9EB758DA2CCCD0BF00D77F6B /* CoreDataTaskDatabase.swift in Sources */,

@@ -8,7 +8,7 @@
 import Foundation
 
 protocol ChangeTaskStatusUseCaseProtocol {
-    func changeStatusForTask(with id: UUID, isCompleted: Bool) async -> Result<TaskObject, ShowableError>
+    func changeStatusForTask(with id: UUID) async -> Result<TaskObject, ShowableError>
 }
 
 final class ChangeTaskStatusUseCase: ChangeTaskStatusUseCaseProtocol {
@@ -23,8 +23,8 @@ final class ChangeTaskStatusUseCase: ChangeTaskStatusUseCaseProtocol {
         self.taskValidationService = taskValidationService
     }
     
-    func changeStatusForTask(with id: UUID, isCompleted: Bool) async -> Result<TaskObject, ShowableError> {
-        let result = await taskRepository.updateTask(with: id, title: "", comment: "", isCompleted: isCompleted)
+    func changeStatusForTask(with id: UUID) async -> Result<TaskObject, ShowableError> {
+        let result = await taskRepository.changeTaskStatus(with: id)
         switch result {
         case .success(let success):
             return .success(success)

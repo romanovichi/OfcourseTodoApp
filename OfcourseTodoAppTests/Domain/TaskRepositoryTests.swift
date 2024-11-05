@@ -44,7 +44,7 @@ final class TaskRepositoryTests: XCTestCase {
             return
         }
         
-        let updateResult = await repository.updateTask(with: createdTask.id, title: "Updated Task", comment: "Updated comment", isCompleted: true)
+        let updateResult = await repository.updateTask(with: createdTask.id, title: "Updated Task", comment: "Updated comment")
         
         switch updateResult {
         case .success(let updatedTask):
