@@ -22,7 +22,8 @@ struct TaskListCellViewModel: Equatable, Hashable {
     let id: UUID
     let title: String
     let isCompleted: Bool
-    
+    let dateCreated: Date
+
     weak var delegate: TaskListViewModelCellEventInput?
     
     var isCompletedLabelValue: String {
@@ -44,6 +45,7 @@ extension TaskListCellViewModel {
         self.id = task.id
         self.title = task.title
         self.isCompleted = task.isCompleted
+        self.dateCreated = task.dateCreated
         self.delegate = delegate
     }
 }

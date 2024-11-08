@@ -152,6 +152,11 @@ extension TaskListViewController: UITableViewDelegate {
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let title = section == 0 ? "Todo" : "Completed"
+        return TaskSectionHeaderView(title: title)
+    }
 }
 
 extension TaskListViewController: UISearchBarDelegate {

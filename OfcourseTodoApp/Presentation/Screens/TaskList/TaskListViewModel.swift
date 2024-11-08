@@ -14,36 +14,11 @@ struct TaskListViewModelActions {
     let addNewTask: () -> Void
 }
 
-protocol TaskListViewModelInput {
-    func initialLoad()
-    func updateData()
-    func addNewTask()
-    func toggleCompletionFilter()
-    func search(by title: String)
-    func resetSearch()
-    func showItemWith(id: UUID)
-}
-
-protocol TaskListViewModelCellEventInput: AnyObject {
-    func completeTaskWith(id: UUID)
-}
-
-protocol TaskListViewModelOutput {
-    var errorTitle: String { get }
-    var updatedItem: BehaviorSubject<TaskListCellViewModel?> { get }
-    var taskCellViewModels: BehaviorSubject<[TaskListCellViewModel]> { get }
-    var error: BehaviorSubject<String> { get }
-    var isIncompleteFilter: BehaviorSubject<Bool> { get }
-}
-
-typealias TaskListViewModelProtocol = TaskListViewModelInput & TaskListViewModelOutput
-
-final class TaskListViewModel: TaskListViewModelProtocol, TaskListViewModelCellEventInput {
+final class TaskListViewModel: TaskListViewModelProtocol {
     
     private let fetchTasksUseCase: FetchTasksUseCaseProtocol
     private let changeTaskStatusUseCase: ChangeTaskStatusUseCaseProtocol
     private let actions: TaskListViewModelActions?
-    private var tasks: [TaskObject] = []
     private let disposeBag = DisposeBag()
     
     let errorTitle = NSLocalizedString("Error", comment: "")
@@ -53,11 +28,10 @@ final class TaskListViewModel: TaskListViewModelProtocol, TaskListViewModelCellE
     private(set) var error = BehaviorSubject<String>(value: "")
     private(set) var isIncompleteFilter = BehaviorSubject<Bool>(value: false)
 
-    @MainActor
-    private var isIncompleteFilterEnabled = false {
+    private var searchQuery: String = ""
+    @MainActor private var isIncompleteFilterEnabled = false {
         didSet {
             isIncompleteFilter.onNext(isIncompleteFilterEnabled)
-            onCompletionFilterChanged()
         }
     }
     
@@ -72,9 +46,6 @@ final class TaskListViewModel: TaskListViewModelProtocol, TaskListViewModelCellE
         self.changeTaskStatusUseCase = changeTaskStatusUseCase
         self.actions = actions
     }
-}
-
-extension TaskListViewModel {
     
     // MARK: - INPUT. View event methods
     
@@ -88,40 +59,52 @@ extension TaskListViewModel {
     
     @MainActor
     func initialLoad() {
-        fetchAllTasks()
+        fetchAndFilterTasks()
     }
     
     @MainActor
     func updateData() {
-        fetchAllTasks()
+        fetchAndFilterTasks()
     }
     
     @MainActor
     func toggleCompletionFilter() {
-        isIncompleteFilterEnabled = !isIncompleteFilterEnabled
+        isIncompleteFilterEnabled.toggle()
+        isIncompleteFilter.onNext(isIncompleteFilterEnabled)
+        fetchAndFilterTasks()
     }
     
     @MainActor
     func resetSearch() {
-        fetchAllTasks()
+        searchQuery = ""
+        fetchAndFilterTasks()
     }
     
     @MainActor
     func search(by title: String) {
-        
-        if title.isEmpty {
-            resetSearch()
-            return
-        }
-        
+        searchQuery = title
+        fetchAndFilterTasks()
+    }
+    
+    @MainActor
+    private func fetchAndFilterTasks() {
         Task {
-            let result = await fetchTasksUseCase.searchTasks(by: title,
+            let result: Result<[TaskObject], ShowableError>
+            
+            if searchQuery.isEmpty {
+                result = isIncompleteFilterEnabled
+                    ? await fetchTasksUseCase.fetchIncompleteTasks()
+                    : await fetchTasksUseCase.fetchAllTasks()
+            } else {
+                result = await fetchTasksUseCase.searchTasks(by: searchQuery,
                                                              includeOnlyIncomplete: isIncompleteFilterEnabled)
+            }
+
             switch result {
             case .success(let fetchedTasks):
                 mapToTaskListCellViewModels(fetchedTasks)
             case .failure(let error):
-                self.error.onNext(error.description)
+                self.error.onNext(ErrorMapper.mapToDescription(showableError: error))
             }
         }
     }
@@ -143,91 +126,16 @@ extension TaskListViewModel {
             case .success(let completedTask):
                 self.updateTask(completedTask)
             case .failure(let error):
-                self.error.onNext(error.description)
+                self.error.onNext(ErrorMapper.mapToDescription(showableError: error))
             }
         }
     }
-}
-
-extension TaskListViewModel {
+    
+    // MARK: - Helper Methods
     
     @MainActor
     private func mapToTaskListCellViewModels(_ tasks: [TaskObject]) {
         let cellViewModels = tasks.mapToSortedCellViewModels(delegate: self)
         self.taskCellViewModels.onNext(cellViewModels)
-    }
-    
-    @MainActor
-    private func fetchAllTasks() {
-        Task {
-            let result = await fetchTasksUseCase.fetchAllTasks()
-            switch result {
-            case .success(let fetchedTasks):
-                mapToTaskListCellViewModels(fetchedTasks)
-            case .failure(let error):
-                self.error.onNext(error.description)
-            }
-        }
-    }
-    
-    @MainActor
-    private func showIncompletedTasks() {
-        Task {
-            let result = await fetchTasksUseCase.fetchIncompleteTasks()
-            switch result {
-            case .success(let fetchedTasks):
-                mapToTaskListCellViewModels(fetchedTasks)
-            case .failure(let error):
-                self.error.onNext(error.description)
-            }
-        }
-    }
-    
-    @MainActor
-    private func onCompletionFilterChanged() {
-        if isIncompleteFilterEnabled {
-            showIncompletedTasks()
-        } else {
-            fetchAllTasks()
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class MockFetchTasksUseCase: FetchTasksUseCaseProtocol {
-    
-    private let mockTasks: [TaskObject] = [
-        TaskObject(id: UUID(), title: "Создать экран добавления", comment: "This is a comment for task 1", isCompleted: true),
-        TaskObject(id: UUID(), title: "Добавить модель для Presentation", comment: "Comment for task 2", isCompleted: false),
-        TaskObject(id: UUID(), title: "Тесты Presentation", comment: "Another comment", isCompleted: false),
-        TaskObject(id: UUID(), title: "Resources", comment: "Yet another task", isCompleted: false)
-    ]
-    
-    func fetchAllTasks() async -> Result<[TaskObject], ShowableError> {
-        return .success(mockTasks)
-    }
-    
-    func fetchIncompleteTasks() async -> Result<[TaskObject], ShowableError> {
-        let incompleteTasks = mockTasks.filter { !$0.isCompleted }
-        return .success(incompleteTasks)
-    }
-    
-    func searchTasks(by title: String, includeOnlyIncomplete: Bool) async -> Result<[TaskObject], ShowableError> {
-        let filteredTasks = mockTasks.filter {
-            $0.title.contains(title) && (!includeOnlyIncomplete || !$0.isCompleted)
-        }
-        return .success(filteredTasks)
     }
 }

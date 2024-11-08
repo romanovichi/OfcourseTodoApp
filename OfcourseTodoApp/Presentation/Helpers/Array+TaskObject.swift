@@ -17,12 +17,13 @@ extension Array where Element == TaskObject {
             cellViewModels.append(TaskListCellViewModel(
                 id: task.id,
                 title: task.title,
-                isCompleted: task.isCompleted,
+                isCompleted: task.isCompleted, 
+                dateCreated: task.dateCreated,
                 delegate: delegate
             ))
         }
         
-        return cellViewModels.sorted { !$0.isCompleted && $1.isCompleted }
+        return cellViewModels.sorted { $0.dateCreated > $1.dateCreated }
     }
 }
 

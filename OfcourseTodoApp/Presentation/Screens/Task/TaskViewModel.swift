@@ -9,22 +9,6 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-protocol NewTaskViewModelInput {
-    func initialLoad()
-    func onDelete()
-    func onSave(title: String, comment: String)
-}
-
-protocol NewTaskViewModelOutput {
-    var errorTitle: String { get }
-
-    var fetchedTask: BehaviorSubject<TaskObject?> { get }
-    var error: BehaviorSubject<String> { get }
-}
-
-typealias NewTaskViewModelProtocol = NewTaskViewModelInput & NewTaskViewModelOutput
-
-
 class TaskViewModel: NewTaskViewModelProtocol {    
     
     private let id: UUID?
@@ -33,10 +17,11 @@ class TaskViewModel: NewTaskViewModelProtocol {
     private let actions: TaskViewModelActions?
     private let disposeBag = DisposeBag()
     
-    var fetchedTask = BehaviorSubject<TaskObject?>(value: nil)
+    var fetchedTask = BehaviorSubject<TaskModel?>(value: nil)
     private(set) var error = BehaviorSubject<String>(value: "")
 
     let errorTitle = NSLocalizedString("Error", comment: "")
+    private var originalTask: TaskModel?
 
     // MARK: - Init
     
@@ -62,22 +47,52 @@ class TaskViewModel: NewTaskViewModelProtocol {
             let result = await taskActionsUseCase.fetchTask(by: id)
             switch result {
             case .success(let task):
-                self.fetchedTask.onNext(task)
+                self.originalTask = TaskModel(taskObject: task)
+                self.fetchedTask.onNext(TaskModel(taskObject: task))
             case .failure(let error):
-                self.error.onNext(error.description)
+                self.error.onNext(ErrorMapper.mapToDescription(showableError: error))
             }
         }
     }
     
     @MainActor
     func onSave(title: String, comment: String) {
+        
+        guard let id = id else {
+            addNewTask(title: title, comment: comment)
+            return
+        }
+        
+        let currentTask = TaskModel(id: id, title: title, comment: comment)
+        if currentTask != originalTask {
+            updateTask(id: id, title: title, comment: comment)
+        } else {
+            actions?.close()
+        }
+    }
+    
+    @MainActor
+    private func updateTask(id: UUID, title: String, comment: String) {
+        Task {
+            let result = await taskActionsUseCase.updateTask(with: id, title: title, comment: comment)
+            switch result {
+            case .success:
+                actions?.close()
+            case .failure(let error):
+                self.error.onNext(ErrorMapper.mapToDescription(showableError: error))
+            }
+        }
+    }
+    
+    @MainActor
+    private func addNewTask(title: String, comment: String) {
         Task {
             let result = await addNewTaskUseCase.createTask(title: title, comment: comment)
             switch result {
-            case .success(let task):
+            case .success:
                 actions?.close()
             case .failure(let error):
-                self.error.onNext(error.description)
+                self.error.onNext(ErrorMapper.mapToDescription(showableError: error))
             }
         }
     }
@@ -92,7 +107,7 @@ class TaskViewModel: NewTaskViewModelProtocol {
             case .success:
                 actions?.close()
             case .failure(let error):
-                self.error.onNext(error.description)
+                self.error.onNext(ErrorMapper.mapToDescription(showableError: error))
             }
         }
     }

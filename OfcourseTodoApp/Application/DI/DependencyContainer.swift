@@ -85,11 +85,4 @@ final class AppDIContainer {
                       addNewTaskUseCase: addNewTaskUseCase,
                       actions: actions)
     }
-    
-    
-    // mock
-    
-    lazy var mockFetchTasksUseCase: FetchTasksUseCaseProtocol = {
-        return MockFetchTasksUseCase()
-    }()
 }

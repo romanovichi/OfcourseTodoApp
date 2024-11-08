@@ -3,6 +3,7 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -12,7 +13,6 @@
             <connections>
                 <outlet property="actionButtonsStackView" destination="Jjn-ED-Ewb" id="Mbj-Ku-5c3"/>
                 <outlet property="deleteTaskButton" destination="l3K-9K-WsK" id="Iu9-ZE-bf6"/>
-                <outlet property="editTaskButton" destination="6ag-dq-WX2" id="J5S-10-v69"/>
                 <outlet property="taskCommentTextView" destination="rYW-vk-kds" id="9qA-Wf-aCL"/>
                 <outlet property="taskTitleTextField" destination="m3P-Nq-vtg" id="oZC-Me-1D2"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -23,13 +23,13 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="m3P-Nq-vtg">
+                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="m3P-Nq-vtg">
                     <rect key="frame" x="16" y="75" width="361" height="34"/>
                     <color key="backgroundColor" systemColor="systemOrangeColor"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="rYW-vk-kds">
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="rYW-vk-kds" customClass="PlaceholderTextView" customModule="OfcourseTodoApp" customModuleProvider="target">
                     <rect key="frame" x="16" y="125" width="361" height="250"/>
                     <color key="backgroundColor" systemColor="systemOrangeColor"/>
                     <constraints>
@@ -40,27 +40,16 @@
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
                 <stackView hidden="YES" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Jjn-ED-Ewb">
-                    <rect key="frame" x="16" y="717.33333333333337" width="361" height="84.666666666666629"/>
+                    <rect key="frame" x="16" y="767.66666666666663" width="361" height="34.333333333333371"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ag-dq-WX2">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l3K-9K-WsK" customClass="SwipeToDeleteButton" customModule="OfcourseTodoApp" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="361" height="34.333333333333336"/>
-                            <color key="backgroundColor" systemColor="systemBrownColor"/>
+                            <color key="backgroundColor" red="0.46564094387755101" green="0.098772321428571425" blue="0.15449617346938777" alpha="0.72172495860927155" colorSpace="custom" customColorSpace="sRGB"/>
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" title="Edit task"/>
-                            <connections>
-                                <action selector="didTapEditTask:" destination="-1" eventType="touchUpInside" id="hBc-l1-Txj"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l3K-9K-WsK">
-                            <rect key="frame" x="0.0" y="50.333333333333258" width="361" height="34.333333333333343"/>
-                            <color key="backgroundColor" systemColor="systemBrownColor"/>
-                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" title="Delete task"/>
-                            <connections>
-                                <action selector="didTapDeleteTask:" destination="-1" eventType="touchUpInside" id="PK5-Xy-NIf"/>
-                            </connections>
+                            <buttonConfiguration key="configuration" style="plain" imagePlacement="trailing" title="Swipe to delete" imagePadding="8">
+                                <imageReference key="image" image="arrowshape.right" catalog="system" symbolScale="medium"/>
+                            </buttonConfiguration>
                         </button>
                     </subviews>
                 </stackView>
@@ -82,11 +71,9 @@
         </view>
     </objects>
     <resources>
+        <image name="arrowshape.right" catalog="system" width="128" height="104"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemBrownColor">
-            <color red="0.63529411764705879" green="0.51764705882352946" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemOrangeColor">
             <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

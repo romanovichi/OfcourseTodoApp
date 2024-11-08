@@ -58,6 +58,13 @@
 		9EE80CE22CD9D7B9007F44DB /* Array+TaskObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CE12CD9D7B9007F44DB /* Array+TaskObject.swift */; };
 		9EE80CE52CDAB492007F44DB /* TodoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CE42CDAB492007F44DB /* TodoButton.swift */; };
 		9EE80CE92CDAB5BB007F44DB /* Alertable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CE82CDAB5BB007F44DB /* Alertable.swift */; };
+		9EE80CEB2CDD487E007F44DB /* ErrorMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CEA2CDD487E007F44DB /* ErrorMapper.swift */; };
+		9EE80CEE2CDD498C007F44DB /* TaskListViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CED2CDD498C007F44DB /* TaskListViewModelProtocol.swift */; };
+		9EE80CF02CDD4CDA007F44DB /* TaskModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CEF2CDD4CDA007F44DB /* TaskModel.swift */; };
+		9EE80CF32CDD4D98007F44DB /* NewTaskViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CF22CDD4D98007F44DB /* NewTaskViewModelProtocol.swift */; };
+		9EE80CF52CDD5F80007F44DB /* TaskSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CF42CDD5F80007F44DB /* TaskSectionHeaderView.swift */; };
+		9EE80CF82CDE06BB007F44DB /* SwipeToDeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CF72CDE06BB007F44DB /* SwipeToDeleteButton.swift */; };
+		9EE80CFA2CDE070F007F44DB /* PlaceholderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CF92CDE070F007F44DB /* PlaceholderTextView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -144,6 +151,13 @@
 		9EE80CE12CD9D7B9007F44DB /* Array+TaskObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+TaskObject.swift"; sourceTree = "<group>"; };
 		9EE80CE42CDAB492007F44DB /* TodoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoButton.swift; sourceTree = "<group>"; };
 		9EE80CE82CDAB5BB007F44DB /* Alertable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alertable.swift; sourceTree = "<group>"; };
+		9EE80CEA2CDD487E007F44DB /* ErrorMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMapper.swift; sourceTree = "<group>"; };
+		9EE80CED2CDD498C007F44DB /* TaskListViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewModelProtocol.swift; sourceTree = "<group>"; };
+		9EE80CEF2CDD4CDA007F44DB /* TaskModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskModel.swift; sourceTree = "<group>"; };
+		9EE80CF22CDD4D98007F44DB /* NewTaskViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskViewModelProtocol.swift; sourceTree = "<group>"; };
+		9EE80CF42CDD5F80007F44DB /* TaskSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskSectionHeaderView.swift; sourceTree = "<group>"; };
+		9EE80CF72CDE06BB007F44DB /* SwipeToDeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeToDeleteButton.swift; sourceTree = "<group>"; };
+		9EE80CF92CDE070F007F44DB /* PlaceholderTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderTextView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -429,6 +443,7 @@
 		9EE80CAF2CCFBF06007F44DB /* TaskList */ = {
 			isa = PBXGroup;
 			children = (
+				9EE80CEC2CDD496D007F44DB /* Protocols */,
 				9EE80CE32CDAB488007F44DB /* Views */,
 				9EE80CC32CD36346007F44DB /* Cells */,
 				9EE80CB22CCFC0A3007F44DB /* TaskListViewController.swift */,
@@ -450,9 +465,12 @@
 		9EE80CC72CD3EC7D007F44DB /* Task */ = {
 			isa = PBXGroup;
 			children = (
+				9EE80CF62CDE06B0007F44DB /* Views */,
+				9EE80CF12CDD4D8A007F44DB /* Protocols */,
 				9EE80CC82CD3ECA0007F44DB /* TaskViewController.swift */,
 				9EE80CC92CD3ECA0007F44DB /* TaskViewController.xib */,
 				9EE80CCD2CD3F8BA007F44DB /* TaskViewModel.swift */,
+				9EE80CEF2CDD4CDA007F44DB /* TaskModel.swift */,
 			);
 			path = Task;
 			sourceTree = "<group>";
@@ -469,6 +487,7 @@
 			isa = PBXGroup;
 			children = (
 				9EE80CE12CD9D7B9007F44DB /* Array+TaskObject.swift */,
+				9EE80CEA2CDD487E007F44DB /* ErrorMapper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -477,6 +496,7 @@
 			isa = PBXGroup;
 			children = (
 				9EE80CE42CDAB492007F44DB /* TodoButton.swift */,
+				9EE80CF42CDD5F80007F44DB /* TaskSectionHeaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -487,6 +507,31 @@
 				9EE80CE82CDAB5BB007F44DB /* Alertable.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		9EE80CEC2CDD496D007F44DB /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				9EE80CED2CDD498C007F44DB /* TaskListViewModelProtocol.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		9EE80CF12CDD4D8A007F44DB /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				9EE80CF22CDD4D98007F44DB /* NewTaskViewModelProtocol.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		9EE80CF62CDE06B0007F44DB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9EE80CF72CDE06BB007F44DB /* SwipeToDeleteButton.swift */,
+				9EE80CF92CDE070F007F44DB /* PlaceholderTextView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -632,9 +677,11 @@
 			files = (
 				9EE80CE52CDAB492007F44DB /* TodoButton.swift in Sources */,
 				9EE80CA12CCF8E5D007F44DB /* AppFlowCoordinator.swift in Sources */,
+				9EE80CF32CDD4D98007F44DB /* NewTaskViewModelProtocol.swift in Sources */,
 				9EE80CDA2CD7DDA5007F44DB /* TaskListCellViewModel.swift in Sources */,
 				9EE80CDF2CD93585007F44DB /* ShowableError.swift in Sources */,
 				9EB758C32CCCC5F500D77F6B /* DependencyContainer.swift in Sources */,
+				9EE80CEE2CDD498C007F44DB /* TaskListViewModelProtocol.swift in Sources */,
 				9EE80CCE2CD3F8BA007F44DB /* TaskViewModel.swift in Sources */,
 				9EE80CE22CD9D7B9007F44DB /* Array+TaskObject.swift in Sources */,
 				9EE80CBB2CD2891F007F44DB /* ChangeTaskStatusUseCase.swift in Sources */,
@@ -644,17 +691,22 @@
 				9EE80CB72CD03E02007F44DB /* TaskListViewModel.swift in Sources */,
 				9EE80C8D2CCED67F007F44DB /* TaskValidationService.swift in Sources */,
 				9EE80CB92CD288F4007F44DB /* TaskActionsUseCase.swift in Sources */,
+				9EE80CF02CDD4CDA007F44DB /* TaskModel.swift in Sources */,
 				9EE80C8A2CCED35A007F44DB /* AddNewTaskUseCase.swift in Sources */,
+				9EE80CFA2CDE070F007F44DB /* PlaceholderTextView.swift in Sources */,
+				9EE80CF52CDD5F80007F44DB /* TaskSectionHeaderView.swift in Sources */,
 				9EB758F32CCCE2A700D77F6B /* TaskMapper.swift in Sources */,
 				9EB758B92CCCC20100D77F6B /* MainCoordinator.swift in Sources */,
 				9EB7588E2CCCC0E700D77F6B /* OfcourseTodoApp.xcdatamodeld in Sources */,
 				9EB758DD2CCCD27B00D77F6B /* TaskObject.swift in Sources */,
 				9EE80CC52CD366AF007F44DB /* TaskListCell.swift in Sources */,
 				9EE0AA4B2CCD6BD2009359D2 /* TaskRepositoryProtocol.swift in Sources */,
+				9EE80CEB2CDD487E007F44DB /* ErrorMapper.swift in Sources */,
 				9EE0AA4F2CCD6CA7009359D2 /* TaskRepository.swift in Sources */,
 				9EB758F02CCCE21C00D77F6B /* TaskEntity+CoreDataClass.swift in Sources */,
 				9EE80CD02CD3FD62007F44DB /* AppAppearance.swift in Sources */,
 				9EE80CE92CDAB5BB007F44DB /* Alertable.swift in Sources */,
+				9EE80CF82CDE06BB007F44DB /* SwipeToDeleteButton.swift in Sources */,
 				9EB758F12CCCE21C00D77F6B /* TaskEntity+CoreDataProperties.swift in Sources */,
 				9EE80CB42CCFC0A3007F44DB /* TaskListViewController.swift in Sources */,
 				9EB758842CCCC0E600D77F6B /* AppDelegate.swift in Sources */,

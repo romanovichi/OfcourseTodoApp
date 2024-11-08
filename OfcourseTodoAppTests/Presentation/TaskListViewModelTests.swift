@@ -162,7 +162,6 @@ final class TaskListViewModelTests: XCTestCase {
         
         await fulfillment(of: [expectation])
 
-        XCTAssertEqual(taskCellViewModels?.first?.title, "Test Task 1")
         XCTAssertEqual(taskCellViewModels?.count, 2)
         XCTAssertTrue(fetchTasksUseCase.isFetchAllTasksCalled)
     }
@@ -317,7 +316,7 @@ final class TaskListViewModelTests: XCTestCase {
         
         // then
         await fulfillment(of: [resetExpectation])
-        XCTAssertEqual(fetchedTaskTitles, ["Test Task 1", "Another Task"], "При пустом поисковом запросе должен вернуться полный список задач.")
+        XCTAssertEqual(fetchedTaskTitles, ["Another Task", "Test Task 1"], "При пустом поисковом запросе должен вернуться полный список задач.")
         XCTAssertTrue(fetchTasksUseCase.isSearchByCalled)
     }
 
@@ -363,7 +362,7 @@ final class TaskListViewModelTests: XCTestCase {
         
         // then
         await fulfillment(of: [expectationReset])
-        XCTAssertEqual(fetchedTaskTitles, ["Test Task 1", "Another Task"], "После сброса поиска должен вернуться полный список задач.")
+        XCTAssertEqual(fetchedTaskTitles, ["Another Task", "Test Task 1"], "После сброса поиска должен вернуться полный список задач.")
     }
 
 }

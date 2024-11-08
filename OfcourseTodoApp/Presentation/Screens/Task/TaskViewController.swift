@@ -7,14 +7,14 @@
 
 import UIKit
 import RxSwift
+
 class TaskViewController: UIViewController {
     
     @IBOutlet weak var taskTitleTextField: UITextField!
-    @IBOutlet weak var taskCommentTextView: UITextView!
+    @IBOutlet weak var taskCommentTextView: PlaceholderTextView!
     
     @IBOutlet weak var actionButtonsStackView: UIStackView!
-    @IBOutlet weak var editTaskButton: UIButton!
-    @IBOutlet weak var deleteTaskButton: UIButton!
+    @IBOutlet weak var deleteTaskButton: SwipeToDeleteButton!
     
     private var viewModel: NewTaskViewModelProtocol!
     private let disposeBag = DisposeBag()
@@ -33,11 +33,24 @@ class TaskViewController: UIViewController {
         
         setupNavigationBar()
         configureUIElements()
-        setupBindings()
+        
+        bindFetchedTask()
         bindErrorMessages()
         
         viewModel.initialLoad()
+//        
+//        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeToDelete(_:)))
+//        swipeRight.direction = .right
+//        deleteTaskButton.addGestureRecognizer(swipeRight)
     }
+    
+//    @objc private func didSwipeToDelete(_ gesture: UISwipeGestureRecognizer) {
+//        if gesture.state == .ended {
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+//                self?.viewModel.onDelete()
+//            }
+//        }
+//    }
     
     private func setupNavigationBar() {
         title = "Task"
@@ -50,6 +63,8 @@ class TaskViewController: UIViewController {
     }
     
     private func configureUIElements() {
+        taskTitleTextField.becomeFirstResponder()
+        
         taskTitleTextField.layer.cornerRadius = 5
         taskCommentTextView.layer.cornerRadius = 5
 
@@ -57,17 +72,18 @@ class TaskViewController: UIViewController {
         taskTitleTextField.layer.borderColor = UIColor.systemBrown.cgColor
         taskCommentTextView.layer.borderWidth = 1
         taskCommentTextView.layer.borderColor = UIColor.systemBrown.cgColor
+        taskCommentTextView.placeholder = "Enter comment here"
         
-        setUserInteractionEnabled(true)
+        deleteTaskButton.backgroundColor = .systemRed
+        deleteTaskButton.layer.cornerRadius = 5
+        deleteTaskButton.delegate = self
     }
     
-    private func setUserInteractionEnabled(_ enabled: Bool) {
-        taskTitleTextField.isUserInteractionEnabled = enabled
-        taskCommentTextView.isUserInteractionEnabled = enabled
-        actionButtonsStackView.isHidden = enabled
+    private func hideActionButtonsStackView(_ isHidden: Bool) {
+        actionButtonsStackView.isHidden = isHidden
     }
     
-    private func setupBindings() {
+    private func bindFetchedTask() {
         viewModel.fetchedTask
             .skip(while: { $0 == nil })
             .subscribe(onNext: { [weak self] task in
@@ -86,30 +102,21 @@ class TaskViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    private func updateUI(with task: TaskObject?) {
+    private func updateUI(with task: TaskModel?) {
         if let task = task {
             taskTitleTextField.text = task.title
             taskCommentTextView.text = task.comment
-            setUserInteractionEnabled(false)
+            hideActionButtonsStackView(false)
         } else {
             taskTitleTextField.text = ""
             taskCommentTextView.text = ""
-            setUserInteractionEnabled(true)
+            hideActionButtonsStackView(true)
         }
     }
     
     @objc private func didTapAddTask() {
         viewModel.onSave(title: taskTitleTextField.text ?? "",
                          comment: taskCommentTextView.text)
-    }
-    
-    @IBAction func didTapEditTask(_ sender: Any) {
-        title = "Edit task"
-        setUserInteractionEnabled(true)
-    }
-    
-    @IBAction func didTapDeleteTask(_ sender: Any) {
-        viewModel.onDelete()
     }
 }
 
@@ -118,5 +125,12 @@ extension TaskViewController: Alertable {
     private func showError(_ error: String) {
         guard !error.isEmpty else { return }
         showAlert(title: viewModel.errorTitle, message: error)
+    }
+}
+
+extension TaskViewController: SwipeToDeleteButtonDelegate {
+    
+    func didTriggerDeleteAction() {
+        viewModel.onDelete()
     }
 }

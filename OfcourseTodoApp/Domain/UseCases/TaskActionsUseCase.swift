@@ -10,7 +10,7 @@ import Foundation
 protocol TaskActionsUseCaseProtocol {
     func fetchTask(by id: UUID) async -> Result<TaskObject, ShowableError>
     func removeTask(by id: UUID) async -> Result<Bool, ShowableError>
-    func updateTask(with id: UUID, title: String, comment: String?, isCompleted: Bool?) async -> Result<TaskObject, ShowableError>
+    func updateTask(with id: UUID, title: String, comment: String?) async -> Result<TaskObject, ShowableError>
 }
 
 final class TaskActionsUseCase: TaskActionsUseCaseProtocol {
@@ -36,7 +36,7 @@ final class TaskActionsUseCase: TaskActionsUseCaseProtocol {
         }
     }
 
-    func updateTask(with id: UUID, title: String, comment: String?, isCompleted: Bool?) async -> Result<TaskObject, ShowableError> {
+    func updateTask(with id: UUID, title: String, comment: String?) async -> Result<TaskObject, ShowableError> {
         
         if let validationError = taskValidationService.validateTitle(title) {
             return .failure(validationError)
