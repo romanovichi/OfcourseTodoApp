@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TaskListViewController" customModule="OfcourseTodoApp" customModuleProvider="target">
+            <connections>
+                <outlet property="searchBar" destination="msC-oC-GkI" id="yZb-D0-Agl"/>
+                <outlet property="tableView" destination="OiH-39-Jcx" id="a4y-Fw-AHh"/>
+                <outlet property="toDoOnlyButton" destination="cPH-ki-7Cu" id="Kwa-rq-e2I"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="OiH-39-Jcx">
+                    <rect key="frame" x="0.0" y="99" width="393" height="719"/>
+                    <color key="backgroundColor" red="0.63529411764705879" green="0.51764705882352946" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="sectionIndexBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </tableView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jNf-WS-Bmv">
+                    <rect key="frame" x="0.0" y="59" width="393" height="40"/>
+                    <subviews>
+                        <stackView contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="gmV-fQ-Afw">
+                            <rect key="frame" x="5" y="5" width="383" height="30"/>
+                            <subviews>
+                                <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="msC-oC-GkI">
+                                    <rect key="frame" x="0.0" y="0.0" width="263" height="30"/>
+                                    <color key="barTintColor" systemColor="systemBrownColor"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="-1" id="0c1-cV-aZO"/>
+                                    </connections>
+                                </searchBar>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cPH-ki-7Cu" customClass="TodoButton" customModule="OfcourseTodoApp" customModuleProvider="target">
+                                    <rect key="frame" x="273" y="0.0" width="110" height="30"/>
+                                    <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="110" id="AqG-MN-JyX"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" title="Show Todo">
+                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="didTapToDoOnlyButton:" destination="-1" eventType="touchUpInside" id="CbB-ps-P2I"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemBrownColor"/>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBrownColor"/>
+                    <constraints>
+                        <constraint firstItem="gmV-fQ-Afw" firstAttribute="leading" secondItem="jNf-WS-Bmv" secondAttribute="leading" constant="5" id="4by-UQ-psB"/>
+                        <constraint firstAttribute="bottom" secondItem="gmV-fQ-Afw" secondAttribute="bottom" constant="5" id="ETJ-Xq-aZ9"/>
+                        <constraint firstAttribute="height" constant="40" id="cpa-Hm-Rp6"/>
+                        <constraint firstItem="gmV-fQ-Afw" firstAttribute="top" secondItem="jNf-WS-Bmv" secondAttribute="top" constant="5" id="hO6-ZJ-P4a"/>
+                        <constraint firstAttribute="trailing" secondItem="gmV-fQ-Afw" secondAttribute="trailing" constant="5" id="pUn-fs-6KJ"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBrownColor"/>
+            <constraints>
+                <constraint firstItem="OiH-39-Jcx" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="YLf-ZY-cuG"/>
+                <constraint firstItem="jNf-WS-Bmv" firstAttribute="trailing" secondItem="OiH-39-Jcx" secondAttribute="trailing" id="ap9-wO-ALz"/>
+                <constraint firstItem="OiH-39-Jcx" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="jJq-Am-wHz"/>
+                <constraint firstItem="OiH-39-Jcx" firstAttribute="top" secondItem="jNf-WS-Bmv" secondAttribute="bottom" id="kHT-AF-Zad"/>
+                <constraint firstItem="jNf-WS-Bmv" firstAttribute="leading" secondItem="OiH-39-Jcx" secondAttribute="leading" id="lUZ-E5-MgH"/>
+                <constraint firstItem="jNf-WS-Bmv" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="sk5-64-wg8"/>
+                <constraint firstItem="OiH-39-Jcx" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="u6A-eR-JGv"/>
+            </constraints>
+            <point key="canvasLocation" x="93.89312977099236" y="19.718309859154932"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBrownColor">
+            <color red="0.63529411764705879" green="0.51764705882352946" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

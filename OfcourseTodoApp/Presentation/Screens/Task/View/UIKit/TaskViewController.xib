@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TaskViewController" customModule="OfcourseTodoApp" customModuleProvider="target">
+            <connections>
+                <outlet property="actionButtonsStackView" destination="Jjn-ED-Ewb" id="Mbj-Ku-5c3"/>
+                <outlet property="deleteTaskButton" destination="l3K-9K-WsK" id="Iu9-ZE-bf6"/>
+                <outlet property="taskCommentTextView" destination="rYW-vk-kds" id="9qA-Wf-aCL"/>
+                <outlet property="taskTitleTextField" destination="m3P-Nq-vtg" id="oZC-Me-1D2"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="m3P-Nq-vtg">
+                    <rect key="frame" x="16" y="75" width="361" height="34"/>
+                    <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="rYW-vk-kds" customClass="PlaceholderTextView" customModule="OfcourseTodoApp" customModuleProvider="target">
+                    <rect key="frame" x="16" y="125" width="361" height="250"/>
+                    <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="250" id="v51-Zl-hpb"/>
+                    </constraints>
+                    <color key="textColor" systemColor="labelColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <stackView hidden="YES" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Jjn-ED-Ewb">
+                    <rect key="frame" x="16" y="767.66666666666663" width="361" height="34.333333333333371"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l3K-9K-WsK" customClass="SwipeToDeleteButton" customModule="OfcourseTodoApp" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="361" height="34.333333333333336"/>
+                            <color key="backgroundColor" red="0.46564094387755101" green="0.098772321428571425" blue="0.15449617346938777" alpha="0.72172495860927155" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" imagePlacement="trailing" title="Swipe to delete" imagePadding="8">
+                                <imageReference key="image" image="arrowshape.right" catalog="system" symbolScale="medium"/>
+                            </buttonConfiguration>
+                        </button>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemOrangeColor"/>
+            <constraints>
+                <constraint firstItem="m3P-Nq-vtg" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="4tV-KI-gbT"/>
+                <constraint firstItem="Jjn-ED-Ewb" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="IH9-Cy-2wp"/>
+                <constraint firstItem="rYW-vk-kds" firstAttribute="top" secondItem="m3P-Nq-vtg" secondAttribute="bottom" constant="16" id="VS6-i7-2La"/>
+                <constraint firstItem="m3P-Nq-vtg" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="16" id="hQR-hQ-5q9"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Jjn-ED-Ewb" secondAttribute="trailing" constant="16" id="nfw-19-Jzm"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="m3P-Nq-vtg" secondAttribute="trailing" constant="16" id="oGM-MO-gvF"/>
+                <constraint firstItem="rYW-vk-kds" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="q5K-3m-I8T"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Jjn-ED-Ewb" secondAttribute="bottom" constant="16" id="wXd-Lv-uTn"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="rYW-vk-kds" secondAttribute="trailing" constant="16" id="x56-wP-lSy"/>
+            </constraints>
+            <point key="canvasLocation" x="93.89312977099236" y="19.718309859154932"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="arrowshape.right" catalog="system" width="128" height="104"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
