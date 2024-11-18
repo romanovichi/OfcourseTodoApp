@@ -88,7 +88,9 @@ final class TaskListViewModel: TaskListViewModelProtocol {
     
     @MainActor
     private func fetchAndFilterTasks() {
-        Task {
+        Task { [weak self] in
+            guard let self else { return }
+            
             let result: Result<[TaskObject], ShowableError>
             
             if searchQuery.isEmpty {
@@ -120,7 +122,9 @@ final class TaskListViewModel: TaskListViewModelProtocol {
     
     @MainActor
     func completeTaskWith(id: UUID) {
-        Task {
+        Task { [weak self] in
+            guard let self else { return }
+            
             let result = await changeTaskStatusUseCase.changeStatusForTask(with: id)
             switch result {
             case .success(let completedTask):

@@ -42,8 +42,10 @@ class TaskViewModel: NewTaskViewModelProtocol {
     @MainActor
     func initialLoad() {
         guard let id = id else { return }
-        
-        Task {
+
+        Task { [weak self] in
+            
+            guard let self else { return }
             let result = await taskActionsUseCase.fetchTask(by: id)
             switch result {
             case .success(let task):

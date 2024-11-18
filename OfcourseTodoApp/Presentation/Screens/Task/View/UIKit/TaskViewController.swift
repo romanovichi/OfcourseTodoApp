@@ -38,19 +38,7 @@ class TaskViewController: UIViewController {
         bindErrorMessages()
         
         viewModel.initialLoad()
-//        
-//        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeToDelete(_:)))
-//        swipeRight.direction = .right
-//        deleteTaskButton.addGestureRecognizer(swipeRight)
     }
-    
-//    @objc private func didSwipeToDelete(_ gesture: UISwipeGestureRecognizer) {
-//        if gesture.state == .ended {
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-//                self?.viewModel.onDelete()
-//            }
-//        }
-//    }
     
     private func setupNavigationBar() {
         title = "Task"

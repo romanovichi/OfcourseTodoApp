@@ -11,14 +11,17 @@ import Foundation
 final class MockTaskRepository: TaskRepositoryProtocol {
     
     var tasks: [TaskObject] = []
+    var errorResult: Result<TaskObject, Error>? = nil
+    private(set) var saveTaskCalled = false
 
     func saveTask(title: String, comment: String?) async -> Result<TaskObject, Error> {
+        saveTaskCalled = true
         let task = TaskObject(id: UUID(), title: title, comment: comment, isCompleted: false)
         tasks.append(task)
-        return .success(task)
+        return errorResult ?? .success(task)
     }
     
-    func changeTaskStatus(with id: UUID) async -> Result<OfcourseTodoApp.TaskObject, any Error> {
+    func changeTaskStatus(with id: UUID) async -> Result<TaskObject, any Error> {
         if let index = tasks.firstIndex(where: { $0.id == id }) {
             tasks[index].toggleIsCompleted()
             return .success(tasks[index])

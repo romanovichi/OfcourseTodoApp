@@ -55,35 +55,50 @@ final class TaskListViewModelTests: XCTestCase {
     }
     
     func test_didTapCompleteTask() async {
-        // given
-        let expectation = XCTestExpectation(description: "Data loaded and task status updated")
 
+        let initialLoadExpectation = XCTestExpectation(description: "Tasks loaded successfully")
+        let completionExpectation = XCTestExpectation(description: "Task status updated successfully")
+        
         let testTask = TaskObject(id: UUID(), title: "Test Task 1", comment: "", isCompleted: false)
 
         setupEnvironment(fetchTasksUseCaseResult: .success([testTask]),
                          changeTaskStatusUseCaseInitData: testTask)
         
-        await viewModel.initialLoad()
-
         viewModel.taskCellViewModels
             .skip(1)
+            .take(1)
             .subscribe(onNext: { taskCellViewModels in
-                if let completedTask = taskCellViewModels.filter({ $0.id == testTask.id }).first {
-                    XCTAssertTrue(completedTask.isCompleted)
-                }
-                expectation.fulfill()
+                XCTAssertEqual(taskCellViewModels.count, 1)
+                XCTAssertEqual(taskCellViewModels.first?.title, "Test Task 1")
+                XCTAssertFalse(taskCellViewModels.first?.isCompleted ?? true)
+                initialLoadExpectation.fulfill()
             })
             .disposed(by: disposeBag)
-
-        // when
+        
+        await viewModel.initialLoad()
+        await fulfillment(of: [initialLoadExpectation], timeout: 1.0)
+        
+        viewModel.taskCellViewModels
+            .skip(1)
+            .take(1)
+            .subscribe(onNext: { taskCellViewModels in
+                if let updatedTask = taskCellViewModels.first(where: { $0.id == testTask.id }) {
+                    XCTAssertTrue(updatedTask.isCompleted)
+                    completionExpectation.fulfill()
+                } else {
+                    XCTFail("Updated task not found")
+                }
+            })
+            .disposed(by: disposeBag)
+        
         await viewModel.completeTaskWith(id: testTask.id)
         
-        // then
-        await fulfillment(of: [expectation], timeout: 1.0)
+        await fulfillment(of: [completionExpectation], timeout: 1.0)
         
         XCTAssertTrue(fetchTasksUseCase.isFetchAllTasksCalled)
         XCTAssertTrue(changeTaskStatusUseCase.changeStatusForTaskCalled)
     }
+
     
     
     func test_didTapCompletionFilter() async {
@@ -267,7 +282,7 @@ final class TaskListViewModelTests: XCTestCase {
         // then
         await fulfillment(of: [expectation])
         
-        XCTAssertEqual(receivedErrorMessage, expectedError.description, "Ошибка должна передаваться в свойство error.")
+        XCTAssertEqual(receivedErrorMessage, ErrorMapper.mapToDescription(showableError: expectedError), "Ошибка должна передаваться в свойство error.")
         XCTAssertTrue(fetchTasksUseCase.isSearchByCalled)
     }
     

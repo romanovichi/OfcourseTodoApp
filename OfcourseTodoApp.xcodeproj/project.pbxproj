@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9EAFC2B12CE6719D0082F70A /* TaskViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EAFC2B02CE6719D0082F70A /* TaskViewModelTests.swift */; };
+		9EAFC2B32CE9D53D0082F70A /* MockTaskActionsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EAFC2B22CE9D53D0082F70A /* MockTaskActionsUseCase.swift */; };
+		9EAFC2B52CE9D5910082F70A /* MockAddNewTaskUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EAFC2B42CE9D5910082F70A /* MockAddNewTaskUseCase.swift */; };
+		9EAFC2B72CE9D5B10082F70A /* MockTaskViewModelActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EAFC2B62CE9D5B10082F70A /* MockTaskViewModelActions.swift */; };
 		9EB758842CCCC0E600D77F6B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB758832CCCC0E600D77F6B /* AppDelegate.swift */; };
 		9EB7588E2CCCC0E700D77F6B /* OfcourseTodoApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9EB7588C2CCCC0E600D77F6B /* OfcourseTodoApp.xcdatamodeld */; };
 		9EB758902CCCC0E800D77F6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9EB7588F2CCCC0E800D77F6B /* Assets.xcassets */; };
@@ -33,7 +37,7 @@
 		9EE80C912CCEEA09007F44DB /* TaskValidationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80C902CCEEA09007F44DB /* TaskValidationServiceTests.swift */; };
 		9EE80C972CCF86AE007F44DB /* MockTaskRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80C962CCF86AE007F44DB /* MockTaskRepository.swift */; };
 		9EE80C992CCF8B51007F44DB /* MockTaskValidationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80C982CCF8B51007F44DB /* MockTaskValidationService.swift */; };
-		9EE80C9B2CCF8B84007F44DB /* TaskUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80C9A2CCF8B84007F44DB /* TaskUseCaseTests.swift */; };
+		9EE80C9B2CCF8B84007F44DB /* AddNewTaskUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80C9A2CCF8B84007F44DB /* AddNewTaskUseCaseTests.swift */; };
 		9EE80CA12CCF8E5D007F44DB /* AppFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CA02CCF8E5D007F44DB /* AppFlowCoordinator.swift */; };
 		9EE80CB42CCFC0A3007F44DB /* TaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CB22CCFC0A3007F44DB /* TaskListViewController.swift */; };
 		9EE80CB52CCFC0A3007F44DB /* TaskListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE80CB32CCFC0A3007F44DB /* TaskListViewController.xib */; };
@@ -65,8 +69,6 @@
 		9EE80CF52CDD5F80007F44DB /* TaskSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CF42CDD5F80007F44DB /* TaskSectionHeaderView.swift */; };
 		9EE80CF82CDE06BB007F44DB /* SwipeToDeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CF72CDE06BB007F44DB /* SwipeToDeleteButton.swift */; };
 		9EE80CFA2CDE070F007F44DB /* PlaceholderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80CF92CDE070F007F44DB /* PlaceholderTextView.swift */; };
-		9EE80D032CE34F96007F44DB /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80D022CE34F96007F44DB /* TaskView.swift */; };
-		9EE80D052CE351B1007F44DB /* MoviesQueryListViewModelWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE80D042CE351B1007F44DB /* MoviesQueryListViewModelWrapper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,6 +102,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9EAFC2B02CE6719D0082F70A /* TaskViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewModelTests.swift; sourceTree = "<group>"; };
+		9EAFC2B22CE9D53D0082F70A /* MockTaskActionsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTaskActionsUseCase.swift; sourceTree = "<group>"; };
+		9EAFC2B42CE9D5910082F70A /* MockAddNewTaskUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAddNewTaskUseCase.swift; sourceTree = "<group>"; };
+		9EAFC2B62CE9D5B10082F70A /* MockTaskViewModelActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTaskViewModelActions.swift; sourceTree = "<group>"; };
 		9EB758802CCCC0E600D77F6B /* OfcourseTodoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OfcourseTodoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EB758832CCCC0E600D77F6B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9EB7588D2CCCC0E600D77F6B /* OfcourseTodoApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OfcourseTodoApp.xcdatamodel; sourceTree = "<group>"; };
@@ -131,7 +137,7 @@
 		9EE80C902CCEEA09007F44DB /* TaskValidationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskValidationServiceTests.swift; sourceTree = "<group>"; };
 		9EE80C962CCF86AE007F44DB /* MockTaskRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTaskRepository.swift; sourceTree = "<group>"; };
 		9EE80C982CCF8B51007F44DB /* MockTaskValidationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTaskValidationService.swift; sourceTree = "<group>"; };
-		9EE80C9A2CCF8B84007F44DB /* TaskUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskUseCaseTests.swift; sourceTree = "<group>"; };
+		9EE80C9A2CCF8B84007F44DB /* AddNewTaskUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewTaskUseCaseTests.swift; sourceTree = "<group>"; };
 		9EE80CA02CCF8E5D007F44DB /* AppFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlowCoordinator.swift; sourceTree = "<group>"; };
 		9EE80CB22CCFC0A3007F44DB /* TaskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewController.swift; sourceTree = "<group>"; };
 		9EE80CB32CCFC0A3007F44DB /* TaskListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskListViewController.xib; sourceTree = "<group>"; };
@@ -160,8 +166,6 @@
 		9EE80CF42CDD5F80007F44DB /* TaskSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskSectionHeaderView.swift; sourceTree = "<group>"; };
 		9EE80CF72CDE06BB007F44DB /* SwipeToDeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeToDeleteButton.swift; sourceTree = "<group>"; };
 		9EE80CF92CDE070F007F44DB /* PlaceholderTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderTextView.swift; sourceTree = "<group>"; };
-		9EE80D022CE34F96007F44DB /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
-		9EE80D042CE351B1007F44DB /* MoviesQueryListViewModelWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesQueryListViewModelWrapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -340,6 +344,9 @@
 				9EE80CD32CD58C90007F44DB /* MockFetchTasksUseCase.swift */,
 				9EE80CD52CD58CA8007F44DB /* MockChangeTaskStatusUseCase.swift */,
 				9EE80CD72CD58CBB007F44DB /* MockTaskListViewModelActions.swift */,
+				9EAFC2B22CE9D53D0082F70A /* MockTaskActionsUseCase.swift */,
+				9EAFC2B42CE9D5910082F70A /* MockAddNewTaskUseCase.swift */,
+				9EAFC2B62CE9D5B10082F70A /* MockTaskViewModelActions.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -409,7 +416,7 @@
 			children = (
 				9EE80C832CCECD59007F44DB /* TaskRepositoryTests.swift */,
 				9EE80C902CCEEA09007F44DB /* TaskValidationServiceTests.swift */,
-				9EE80C9A2CCF8B84007F44DB /* TaskUseCaseTests.swift */,
+				9EE80C9A2CCF8B84007F44DB /* AddNewTaskUseCaseTests.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -480,6 +487,7 @@
 			isa = PBXGroup;
 			children = (
 				9EE80CD12CD50F97007F44DB /* TaskListViewModelTests.swift */,
+				9EAFC2B02CE6719D0082F70A /* TaskViewModelTests.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -539,7 +547,6 @@
 		9EE80CFB2CE34540007F44DB /* View */ = {
 			isa = PBXGroup;
 			children = (
-				9EE80CFF2CE3457F007F44DB /* SwiftUI */,
 				9EE80CFE2CE34572007F44DB /* UIKit */,
 			);
 			path = View;
@@ -549,7 +556,6 @@
 			isa = PBXGroup;
 			children = (
 				9EE80CCD2CD3F8BA007F44DB /* TaskViewModel.swift */,
-				9EE80D042CE351B1007F44DB /* MoviesQueryListViewModelWrapper.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -569,14 +575,6 @@
 				9EE80CC92CD3ECA0007F44DB /* TaskViewController.xib */,
 			);
 			path = UIKit;
-			sourceTree = "<group>";
-		};
-		9EE80CFF2CE3457F007F44DB /* SwiftUI */ = {
-			isa = PBXGroup;
-			children = (
-				9EE80D022CE34F96007F44DB /* TaskView.swift */,
-			);
-			path = SwiftUI;
 			sourceTree = "<group>";
 		};
 		9EE80D002CE3459C007F44DB /* View */ = {
@@ -760,7 +758,6 @@
 				9EB758F32CCCE2A700D77F6B /* TaskMapper.swift in Sources */,
 				9EB758B92CCCC20100D77F6B /* MainCoordinator.swift in Sources */,
 				9EB7588E2CCCC0E700D77F6B /* OfcourseTodoApp.xcdatamodeld in Sources */,
-				9EE80D052CE351B1007F44DB /* MoviesQueryListViewModelWrapper.swift in Sources */,
 				9EB758DD2CCCD27B00D77F6B /* TaskObject.swift in Sources */,
 				9EE80CC52CD366AF007F44DB /* TaskListCell.swift in Sources */,
 				9EE0AA4B2CCD6BD2009359D2 /* TaskRepositoryProtocol.swift in Sources */,
@@ -775,7 +772,6 @@
 				9EB758842CCCC0E600D77F6B /* AppDelegate.swift in Sources */,
 				9EE80CBD2CD2894C007F44DB /* FetchTasksUseCase.swift in Sources */,
 				9EE80CCB2CD3ECA0007F44DB /* TaskViewController.swift in Sources */,
-				9EE80D032CE34F96007F44DB /* TaskView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -783,9 +779,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9EE80C9B2CCF8B84007F44DB /* TaskUseCaseTests.swift in Sources */,
+				9EAFC2B52CE9D5910082F70A /* MockAddNewTaskUseCase.swift in Sources */,
+				9EE80C9B2CCF8B84007F44DB /* AddNewTaskUseCaseTests.swift in Sources */,
 				9EE80CD42CD58C90007F44DB /* MockFetchTasksUseCase.swift in Sources */,
+				9EAFC2B72CE9D5B10082F70A /* MockTaskViewModelActions.swift in Sources */,
 				9EE80C972CCF86AE007F44DB /* MockTaskRepository.swift in Sources */,
+				9EAFC2B12CE6719D0082F70A /* TaskViewModelTests.swift in Sources */,
+				9EAFC2B32CE9D53D0082F70A /* MockTaskActionsUseCase.swift in Sources */,
 				9EE80CD82CD58CBB007F44DB /* MockTaskListViewModelActions.swift in Sources */,
 				9EE80C992CCF8B51007F44DB /* MockTaskValidationService.swift in Sources */,
 				9EE80CD22CD50F97007F44DB /* TaskListViewModelTests.swift in Sources */,

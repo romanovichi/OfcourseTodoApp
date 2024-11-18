@@ -10,13 +10,19 @@ import Foundation
 
 final class MockTaskValidationService: TaskValidationServiceProtocol {
     
-    var validationError: ShowableError?
-
+    var validateTitleError: ShowableError?
+    var validateCommentError: ShowableError?
+    
+    private(set) var validateTitleCalled = false
+    private(set) var validateCommentCalled = false
+    
     func validateTitle(_ title: String) -> ShowableError? {
-        return validationError
+        validateTitleCalled = true
+        return validateTitleError
     }
     
     func validateComment(_ comment: String) -> ShowableError? {
-        return validationError
+        validateCommentCalled = true
+        return validateCommentError
     }
 }
