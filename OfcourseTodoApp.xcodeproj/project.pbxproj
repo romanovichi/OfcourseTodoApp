@@ -11,6 +11,7 @@
 		9EAFC2B32CE9D53D0082F70A /* MockTaskActionsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EAFC2B22CE9D53D0082F70A /* MockTaskActionsUseCase.swift */; };
 		9EAFC2B52CE9D5910082F70A /* MockAddNewTaskUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EAFC2B42CE9D5910082F70A /* MockAddNewTaskUseCase.swift */; };
 		9EAFC2B72CE9D5B10082F70A /* MockTaskViewModelActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EAFC2B62CE9D5B10082F70A /* MockTaskViewModelActions.swift */; };
+		9EAFC2B92CEB54F40082F70A /* CheckboxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EAFC2B82CEB54F40082F70A /* CheckboxButton.swift */; };
 		9EB758842CCCC0E600D77F6B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB758832CCCC0E600D77F6B /* AppDelegate.swift */; };
 		9EB7588E2CCCC0E700D77F6B /* OfcourseTodoApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9EB7588C2CCCC0E600D77F6B /* OfcourseTodoApp.xcdatamodeld */; };
 		9EB758902CCCC0E800D77F6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9EB7588F2CCCC0E800D77F6B /* Assets.xcassets */; };
@@ -106,6 +107,7 @@
 		9EAFC2B22CE9D53D0082F70A /* MockTaskActionsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTaskActionsUseCase.swift; sourceTree = "<group>"; };
 		9EAFC2B42CE9D5910082F70A /* MockAddNewTaskUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAddNewTaskUseCase.swift; sourceTree = "<group>"; };
 		9EAFC2B62CE9D5B10082F70A /* MockTaskViewModelActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTaskViewModelActions.swift; sourceTree = "<group>"; };
+		9EAFC2B82CEB54F40082F70A /* CheckboxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxButton.swift; sourceTree = "<group>"; };
 		9EB758802CCCC0E600D77F6B /* OfcourseTodoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OfcourseTodoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9EB758832CCCC0E600D77F6B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9EB7588D2CCCC0E600D77F6B /* OfcourseTodoApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OfcourseTodoApp.xcdatamodel; sourceTree = "<group>"; };
@@ -253,6 +255,7 @@
 		9EB758B62CCCC1ED00D77F6B /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				9EE80CF62CDE06B0007F44DB /* Views */,
 				9EE80CAE2CCFBEFF007F44DB /* Screens */,
 				9EB758B72CCCC1F500D77F6B /* Coordinators */,
 				9EE80CE72CDAB5AF007F44DB /* Utils */,
@@ -455,7 +458,7 @@
 			isa = PBXGroup;
 			children = (
 				9EE80CEC2CDD496D007F44DB /* Protocols */,
-				9EE80CE32CDAB488007F44DB /* Views */,
+				9EE80CC32CD36346007F44DB /* Cells */,
 				9EE80D002CE3459C007F44DB /* View */,
 				9EE80D012CE345AE007F44DB /* ViewModel */,
 			);
@@ -468,7 +471,8 @@
 				9EE80CC42CD366AF007F44DB /* TaskListCell.swift */,
 				9EE80CD92CD7DDA5007F44DB /* TaskListCellViewModel.swift */,
 			);
-			path = Cells;
+			name = Cells;
+			path = Views/Cells;
 			sourceTree = "<group>";
 		};
 		9EE80CC72CD3EC7D007F44DB /* Task */ = {
@@ -478,7 +482,6 @@
 				9EE80CFD2CE34562007F44DB /* Model */,
 				9EE80CFC2CE34557007F44DB /* ViewModel */,
 				9EE80CFB2CE34540007F44DB /* View */,
-				9EE80CF62CDE06B0007F44DB /* Views */,
 			);
 			path = Task;
 			sourceTree = "<group>";
@@ -499,16 +502,6 @@
 				9EE80CEA2CDD487E007F44DB /* ErrorMapper.swift */,
 			);
 			path = Helpers;
-			sourceTree = "<group>";
-		};
-		9EE80CE32CDAB488007F44DB /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				9EE80CC32CD36346007F44DB /* Cells */,
-				9EE80CE42CDAB492007F44DB /* TodoButton.swift */,
-				9EE80CF42CDD5F80007F44DB /* TaskSectionHeaderView.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		9EE80CE72CDAB5AF007F44DB /* Utils */ = {
@@ -538,8 +531,11 @@
 		9EE80CF62CDE06B0007F44DB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9EE80CE42CDAB492007F44DB /* TodoButton.swift */,
+				9EE80CF42CDD5F80007F44DB /* TaskSectionHeaderView.swift */,
 				9EE80CF72CDE06BB007F44DB /* SwipeToDeleteButton.swift */,
 				9EE80CF92CDE070F007F44DB /* PlaceholderTextView.swift */,
+				9EAFC2B82CEB54F40082F70A /* CheckboxButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -765,6 +761,7 @@
 				9EE0AA4F2CCD6CA7009359D2 /* TaskRepository.swift in Sources */,
 				9EB758F02CCCE21C00D77F6B /* TaskEntity+CoreDataClass.swift in Sources */,
 				9EE80CD02CD3FD62007F44DB /* AppAppearance.swift in Sources */,
+				9EAFC2B92CEB54F40082F70A /* CheckboxButton.swift in Sources */,
 				9EE80CE92CDAB5BB007F44DB /* Alertable.swift in Sources */,
 				9EE80CF82CDE06BB007F44DB /* SwipeToDeleteButton.swift in Sources */,
 				9EB758F12CCCE21C00D77F6B /* TaskEntity+CoreDataProperties.swift in Sources */,

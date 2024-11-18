@@ -98,8 +98,6 @@ final class TaskListViewModelTests: XCTestCase {
         XCTAssertTrue(fetchTasksUseCase.isFetchAllTasksCalled)
         XCTAssertTrue(changeTaskStatusUseCase.changeStatusForTaskCalled)
     }
-
-    
     
     func test_didTapCompletionFilter() async {
         // given
@@ -111,11 +109,29 @@ final class TaskListViewModelTests: XCTestCase {
         
         // when
         await viewModel.toggleCompletionFilter() // toggle to completed
-        await viewModel.toggleCompletionFilter() // toggle to incompleted
         
-        expectation.fulfill()
+        viewModel.taskCellViewModels
+            .skip(1)
+            .subscribe(onNext: { fetchedTasks in
+                XCTAssertTrue(fetchedTasks.count == 1)
+                expectation.fulfill()
+            })
+            .disposed(by: disposeBag)
         
         await fulfillment(of: [expectation])
+        
+        let expectationIncomplete = XCTestExpectation(description: "Completion filter toggled")
+
+        await viewModel.toggleCompletionFilter() // toggle to incompleted
+        
+        viewModel.taskCellViewModels
+            .subscribe(onNext: { fetchedTasks in
+                XCTAssertFalse(fetchedTasks.count == 0)
+                expectationIncomplete.fulfill()
+            })
+            .disposed(by: disposeBag)
+        
+        await fulfillment(of: [expectationIncomplete])
         
         // then
         XCTAssertTrue(fetchTasksUseCase.isFetchIncompletedTasksCalled)

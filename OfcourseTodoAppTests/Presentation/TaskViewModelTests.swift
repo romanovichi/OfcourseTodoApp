@@ -138,11 +138,22 @@ final class TaskViewModelTests: XCTestCase {
                          fetchTaskResult: .success(TaskObject(id: taskID, title: "Task to Delete", comment: "")),
                          removeTaskResult: .success(true))
         
+        // when
+        viewModel.fetchedTask
+            .skip(1)
+            .subscribe(onNext: { task in
+                XCTAssertEqual(task?.title, "Task to Delete")
+                initialLoadExpectation.fulfill()
+            })
+            .disposed(by: disposeBag)
+        
         await viewModel.initialLoad()
+        
+        await fulfillment(of: [initialLoadExpectation], timeout: 1.0)
         
         // then
         XCTAssertTrue(taskActionsUseCase.isFetchTaskCalled)
-
+        
         // given
         let onDeleteExpectation = XCTestExpectation(description: "Task deleted successfully")
 
